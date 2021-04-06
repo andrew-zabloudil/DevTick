@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -16,5 +16,14 @@ class Ticket(db.Model):
 
 
 @app.route('/')
-def projects():
+def home():
     return 'Hello, World!'
+
+
+@app.route('/project/<int:project_id>')
+def project(project_id):
+    return render_template('project.html', id=project_id)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
