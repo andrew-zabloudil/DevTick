@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from forms import CreateTicketForm
 import os
 from dotenv import load_dotenv
+from datetime import datetime as dt
 
 load_dotenv()
 
@@ -15,7 +16,7 @@ app.config['SECRET_KEY'] = os.getenv("FLASK_SECRET_KEY")
 bootstrap = Bootstrap(app)
 ckeditor = CKEditor(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app)
 
 
@@ -27,14 +28,27 @@ class Ticket(db.Model):
     time = db.Column(db.String(50), nullable=False)
 
 
+db.create_all()
+
+
 @app.route('/')
 def home():
     return 'Hello, World!'
 
 
-@app.route('/create-ticket')
+@app.route('/create-ticket', methods=["GET", "POST"])
 def create_ticket():
     form = CreateTicketForm()
+    if form.validate_on_submit():
+        new_ticket = Ticket(
+            name=form.name.data,
+            summary=form.summary.data,
+            description=form.description.data,
+            time=dt.now()
+        )
+        db.session.add(new_ticket)
+        db.session.commit()
+        return redirect(url_for('home'))
     return render_template('create_ticket.html', form=form)
 
 
