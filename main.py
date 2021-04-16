@@ -20,12 +20,26 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app)
 
 
+class Project(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80), nullable=False)
+    summary = db.Column(db.String(250), nullable=False)
+    description = db.Column(db.String(500), nullable=False)
+    time = db.Column(db.String(50), nullable=False)
+    tags = db.Column(db.String(500))
+    tickets = db.relationship('Ticket', backref='ticket', lazy=True)
+
+
 class Ticket(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
-    summary = db.Column(db.String(255), nullable=False)
-    description = db.Column(db.String(512), nullable=False)
+    summary = db.Column(db.String(250), nullable=False)
+    description = db.Column(db.String(500), nullable=False)
     time = db.Column(db.String(50), nullable=False)
+    category = db.Column(db.String(50), nullable=False)
+    tags = db.Column(db.String(500))
+    project_id = db.Column(db.Integer, db.ForeignKey(
+        'project.id'), nullable=False)
 
 
 db.create_all()
