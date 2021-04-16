@@ -1,9 +1,12 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField
+from wtforms import StringField, SubmitField, PasswordField, SelectField
 from wtforms.validators import DataRequired, URL, Email
 from flask_ckeditor import CKEditorField
 
 # WTForm
+
+ticket_categories = [
+    ('bug', 'Bug'), ('pf', 'Planned Feature'), ('ud', 'Update')]
 
 
 class CreateTicketForm(FlaskForm):
@@ -11,6 +14,7 @@ class CreateTicketForm(FlaskForm):
     summary = StringField("Summary", validators=[DataRequired()])
     description = CKEditorField(
         "Full Description", validators=[DataRequired()])
+    category = SelectField(u'Category', choices=ticket_categories)
     submit = SubmitField("Create Ticket")
 
 # Template to be used later for user registration.
