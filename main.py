@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, flash, abort
 from flask_bootstrap import Bootstrap
 from flask_ckeditor import CKEditor
 from flask_sqlalchemy import SQLAlchemy
-from forms import CreateTicketForm
+from forms import CreateTicketForm, CreateProjectForm
 import os
 from dotenv import load_dotenv
 from datetime import datetime as dt
@@ -47,7 +47,24 @@ db.create_all()
 
 @app.route('/')
 def home():
-    return 'Hello, World!'
+    return render_template('index.html')
+
+
+@app.route('/create-project', methods=["GET", "POST"])
+def create_project():
+    form = CreateProjectForm()
+    if form.validate_on_submit():
+        new_project = Project(
+            name=form.name.data,
+            summary=form.summary.data,
+            description=form.description.data,
+            time=dt.now(),
+            tags="",
+        )
+        db.session.add(new_ticket)
+        db.session.commit()
+        return redirect(url_for('home'))
+    return render_template('create_ticket.html', form=form)
 
 
 @app.route('/create-ticket', methods=["GET", "POST"])
@@ -58,7 +75,9 @@ def create_ticket():
             name=form.name.data,
             summary=form.summary.data,
             description=form.description.data,
-            time=dt.now()
+            time=dt.now(),
+            category=form.category.data,
+            project_id=1,
         )
         db.session.add(new_ticket)
         db.session.commit()
