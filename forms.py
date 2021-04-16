@@ -5,6 +5,15 @@ from flask_ckeditor import CKEditorField
 
 # WTForm
 
+
+class CreateProjectForm(FlaskForm):
+    name = StringField("Project Name", validators=[DataRequired()])
+    summary = StringField("Summary", validators=[DataRequired()])
+    description = CKEditorField(
+        "Full Description", validators=[DataRequired()])
+    submit = SubmitField("Create Ticket")
+
+
 ticket_categories = [
     ('bug', 'Bug'), ('pf', 'Planned Feature'), ('ud', 'Update')]
 
