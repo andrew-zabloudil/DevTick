@@ -1,12 +1,14 @@
 from flask import Flask, render_template, redirect, url_for, flash, abort
 from flask_bootstrap import Bootstrap
 from flask_ckeditor import CKEditor
+from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 from flask_sqlalchemy import SQLAlchemy
-from forms import CreateTicketForm, CreateProjectForm
+from sqlalchemy.orm import relationship
+from werkzeug.security import generate_password_hash, check_password_hash
 import os
 from dotenv import load_dotenv
 from datetime import datetime as dt
-
+from forms import CreateTicketForm, CreateProjectForm, LoginForm, RegisterForm
 load_dotenv()
 
 
@@ -20,6 +22,16 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app)
 
 
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), nullable=False)
+    password = db.Column(db.String(100), nullable=False)
+    created_projects = relationship("Project", back_populates="creator")
+    created_tickets = relationship("Ticket", back_populates="creator")
+    invited_projects = relationship("Project", back_populates="invited_users")
+
+
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
@@ -27,7 +39,9 @@ class Project(db.Model):
     description = db.Column(db.String(500), nullable=False)
     time = db.Column(db.String(50), nullable=False)
     tags = db.Column(db.String(500))
-    tickets = db.relationship('Ticket', backref='ticket', lazy=True)
+    tickets = relationship("Ticket", back_populates="project")
+    creator = relationship("User", back_populates="projects")
+    invited_userse = relationship("User", back_populates="invited_projects")
 
 
 class Ticket(db.Model):
@@ -37,9 +51,10 @@ class Ticket(db.Model):
     description = db.Column(db.String(500), nullable=False)
     time = db.Column(db.String(50), nullable=False)
     category = db.Column(db.String(50), nullable=False)
+    status = db.Column(db.String(10), nullable=False)
     tags = db.Column(db.String(500))
-    project_id = db.Column(db.Integer, db.ForeignKey(
-        'project.id'), nullable=False)
+    project = relationship("Project", back_populates="tickets")
+    creator = relationship("User", back_populates="tickets")
 
 
 db.create_all()
@@ -61,10 +76,10 @@ def create_project():
             time=dt.now(),
             tags="",
         )
-        db.session.add(new_ticket)
+        db.session.add(new_project)
         db.session.commit()
         return redirect(url_for('home'))
-    return render_template('create_ticket.html', form=form)
+    return render_template('create_project.html', form=form)
 
 
 @app.route('/create-ticket', methods=["GET", "POST"])
@@ -77,6 +92,7 @@ def create_ticket():
             description=form.description.data,
             time=dt.now(),
             category=form.category.data,
+            status="Open",
             project_id=1,
         )
         db.session.add(new_ticket)
