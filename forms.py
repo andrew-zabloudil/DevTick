@@ -26,18 +26,18 @@ class CreateTicketForm(FlaskForm):
     category = SelectField(u'Category', choices=ticket_categories)
     submit = SubmitField("Create Ticket")
 
-# Template to be used later for user registration.
-# class RegisterForm(FlaskForm):
-#     email = StringField("Email", validators=[DataRequired(), Email()])
-#     password = PasswordField("Password", validators=[DataRequired()])
-#     name = StringField("Name", validators=[DataRequired()])
-#     submit = SubmitField("Sign Me Up!")
+
+class RegisterForm(FlaskForm):
+    email = StringField("Email", validators=[DataRequired(), Email()])
+    password = PasswordField("Password", validators=[DataRequired()])
+    name = StringField("Name", validators=[DataRequired()])
+    submit = SubmitField("Sign Me Up!")
 
 
-# class LoginForm(FlaskForm):
-#     email = StringField("Email", validators=[DataRequired(), Email()])
-#     password = PasswordField("Password", validators=[DataRequired()])
-#     submit = SubmitField("Let Me In!")
+class LoginForm(FlaskForm):
+    email = StringField("Email", validators=[DataRequired(), Email()])
+    password = PasswordField("Password", validators=[DataRequired()])
+    submit = SubmitField("Login")
 
 
 # class CommentForm(FlaskForm):
