@@ -21,6 +21,9 @@ ckeditor = CKEditor(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app)
 
+login_manager = LoginManager()
+login_manager.init_app(app)
+
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -58,6 +61,11 @@ class Ticket(db.Model):
 
 
 db.create_all()
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 
 @app.route('/')
