@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, SelectField
 from wtforms.validators import DataRequired, URL, Email
+import email_validator
 from flask_ckeditor import CKEditorField
 
 # WTForm
@@ -11,7 +12,7 @@ class CreateProjectForm(FlaskForm):
     summary = StringField("Summary", validators=[DataRequired()])
     description = CKEditorField(
         "Full Description", validators=[DataRequired()])
-    submit = SubmitField("Create Ticket")
+    submit = SubmitField("Create Project")
 
 
 ticket_categories = [
