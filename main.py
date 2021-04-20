@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, flash, abort
+from flask import Flask, render_template, redirect, url_for, flash, abort, request
 from flask_bootstrap import Bootstrap
 from flask_ckeditor import CKEditor
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
@@ -25,7 +25,8 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
+    __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), nullable=False)
@@ -36,6 +37,7 @@ class User(db.Model):
 
 
 class Project(db.Model):
+    __tablename__ = "projects"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
     summary = db.Column(db.String(250), nullable=False)
@@ -43,11 +45,13 @@ class Project(db.Model):
     time = db.Column(db.String(50), nullable=False)
     tags = db.Column(db.String(500))
     tickets = relationship("Ticket", back_populates="project")
-    creator = relationship("User", back_populates="projects")
-    invited_userse = relationship("User", back_populates="invited_projects")
+    creator_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    creator = relationship("User", back_populates="created_projects")
+    invited_users = relationship("User", back_populates="invited_projects")
 
 
 class Ticket(db.Model):
+    __tablename__ = "tickets"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
     summary = db.Column(db.String(250), nullable=False)
@@ -56,8 +60,10 @@ class Ticket(db.Model):
     category = db.Column(db.String(50), nullable=False)
     status = db.Column(db.String(10), nullable=False)
     tags = db.Column(db.String(500))
+    project_id = db.Column(db.Integer, db.ForeignKey("projects.id"))
     project = relationship("Project", back_populates="tickets")
-    creator = relationship("User", back_populates="tickets")
+    creator_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    creator = relationship("User", back_populates="created_tickets")
 
 
 db.create_all()
@@ -73,14 +79,35 @@ def home():
     return render_template('index.html')
 
 
-@app.route('/login')
+@app.route('/login', methods=["GET", "POST"])
 def login():
-    return render_template('login.html')
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if not user:
+            flash("There is no account associated with that email address.")
+        else:
+            login_user(user)
+            flash('Logged in successfully.')
+            return redirect(url_for('home'))
+    return render_template('login.html', form=form)
 
 
-@app.route('/register')
+@app.route('/register', methods=["GET", "POST"])
 def register():
-    return render_template('register.html')
+    form = RegisterForm()
+    if form.validate_on_submit():
+        new_user = User(
+            name=form.name.data,
+            email=form.email.data,
+            password=form.password.data,
+        )
+        db.session.add(new_user)
+        db.session.commit()
+        login_user(new_user)
+        flash('Registered successully. You have been logged in.')
+        return redirect(url_for('home'))
+    return render_template('register.html', form=form)
 
 
 @app.route('/create-project', methods=["GET", "POST"])
