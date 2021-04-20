@@ -4,7 +4,11 @@
 {% block content %}
 {% include "header.html" %}
 
+{% if current_user.is_authenticated %} 
+Hello, {{ current_user.name }}!
+{% else %}
 <span>Hello, World!</span>
+{% endif %}
 
 
 {% include "footer.html" %}
