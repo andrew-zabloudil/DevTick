@@ -120,6 +120,7 @@ def create_project():
             description=form.description.data,
             time=dt.now(),
             tags="",
+            creator=current_user
         )
         db.session.add(new_project)
         db.session.commit()
@@ -139,6 +140,7 @@ def create_ticket():
             category=form.category.data,
             status="Open",
             project_id=1,
+            creator=current_user
         )
         db.session.add(new_ticket)
         db.session.commit()
