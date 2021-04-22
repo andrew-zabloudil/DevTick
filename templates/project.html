@@ -2,7 +2,10 @@
 
 <div>
   <!-- make projects here -->
-  This is where projects will appear. Project id: {{ id }}
+  This is where projects will appear. Project id: {{ project.id }}
+  <p>Project Name: {{ project.name }}</p>
+  <p>Project Summary: {{ project.summary }}</p>
+  <p>Project Description: {{ project.description }}</p>
 </div>
 
 {% include "footer.html" %}
