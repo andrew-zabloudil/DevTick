@@ -33,7 +33,6 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(100), nullable=False)
     created_projects = relationship("Project", back_populates="creator")
     created_tickets = relationship("Ticket", back_populates="creator")
-    invited_projects = relationship("Project", back_populates="invited_users")
 
 
 class Project(db.Model):
@@ -47,7 +46,6 @@ class Project(db.Model):
     tickets = relationship("Ticket", back_populates="project")
     creator_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     creator = relationship("User", back_populates="created_projects")
-    invited_users = relationship("User", back_populates="invited_projects")
 
 
 class Ticket(db.Model):
@@ -156,7 +154,8 @@ def create_ticket():
 
 @app.route('/project/<int:project_id>')
 def project(project_id):
-    return render_template('project.html', id=project_id)
+    project = Project.query.get(project_id)
+    return render_template('project.html', project=project)
 
 
 if __name__ == "__main__":
