@@ -123,6 +123,7 @@ def register():
 
 
 @app.route('/create-project', methods=["GET", "POST"])
+@login_required
 def create_project():
     form = CreateProjectForm()
     if form.validate_on_submit():
@@ -141,6 +142,7 @@ def create_project():
 
 
 @app.route('/project/<int:project_id>/create-ticket', methods=["GET", "POST"])
+@login_required
 def create_ticket(project_id):
     form = CreateTicketForm()
     if form.validate_on_submit():
