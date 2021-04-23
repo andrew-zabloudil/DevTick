@@ -4,12 +4,16 @@
 {% block content %}
 {% include "header.html" %}
 
-{% if current_user.is_authenticated %} 
-Hello, {{ current_user.name }}!
+<div>
+{% if current_user.is_authenticated %}
+    <p>Hello, {{ current_user.name }}! Select a project to work on.</p>
+    {% for project in current_user.created_projects %}
+        <a href="{{ url_for('project', project_id=project.id) }}">{{ project.name }}</a><br>
+    {% endfor %}
 {% else %}
-<span>Hello, World!</span>
+    <span>Hello, World!</span>
 {% endif %}
-
+</div>
 
 {% include "footer.html" %}
 {% endblock %}
