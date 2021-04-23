@@ -1,11 +1,26 @@
 {% include "header.html" %}
 
 <div>
-  <!-- make projects here -->
+  <a href="{{ url_for('create_ticket', project_id=project.id) }}"
+    >Create Ticket</a
+  >
+</div>
+<div>
   This is where projects will appear. Project id: {{ project.id }}
   <p>Project Name: {{ project.name }}</p>
   <p>Project Summary: {{ project.summary }}</p>
   <p>Project Description: {{ project.description|safe }}</p>
+  {% if project.tickets %}
+    {% for ticket in project.tickets %}
+    <div>
+      <p>Ticket Name: {{ ticket.name }}</p>
+      <p>Ticket Summary: {{ ticket.summary }}</p>
+      <p>Ticket Description: {{ ticket.description|safe }}</p>
+    </div>
+    {% endfor %}
+  {% else %}
+    <p>This project has no tickets yet. Get started now by clicking Create Ticket!</p>
+  {% endif %}
 </div>
 
 {% include "footer.html" %}
