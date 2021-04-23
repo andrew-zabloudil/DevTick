@@ -140,8 +140,8 @@ def create_project():
     return render_template('create_project.html', form=form)
 
 
-@app.route('/create-ticket', methods=["GET", "POST"])
-def create_ticket():
+@app.route('/project/<int:project_id>/create-ticket', methods=["GET", "POST"])
+def create_ticket(project_id):
     form = CreateTicketForm()
     if form.validate_on_submit():
         new_ticket = Ticket(
@@ -151,12 +151,12 @@ def create_ticket():
             time=dt.now(),
             category=form.category.data,
             status="Open",
-            project_id=1,
+            project_id=project_id,
             creator=current_user
         )
         db.session.add(new_ticket)
         db.session.commit()
-        return redirect(url_for('home'))
+        return redirect(url_for('project', project_id=project_id))
     return render_template('create_ticket.html', form=form)
 
 
