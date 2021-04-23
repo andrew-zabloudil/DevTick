@@ -85,9 +85,12 @@ def login():
         if not user:
             flash("There is no account associated with that email address.")
         else:
-            login_user(user)
-            flash('Logged in successfully.')
-            return redirect(url_for('home'))
+            if check_password_hash(user.password, form.password.data):
+                login_user(user)
+                flash('Logged in successfully.')
+                return redirect(url_for('home'))
+            else:
+                flash('Incorrect Password')
     return render_template('login.html', form=form)
 
 
@@ -101,10 +104,15 @@ def logout():
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
+        hashed_password = generate_password_hash(
+            form.password.data,
+            method="pbkdf2:sha256",
+            salt_length=8
+        )
         new_user = User(
             name=form.name.data,
             email=form.email.data,
-            password=form.password.data,
+            password=hashed_password,
         )
         db.session.add(new_user)
         db.session.commit()
