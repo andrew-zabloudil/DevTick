@@ -6,10 +6,27 @@
 
 <div>
 {% if current_user.is_authenticated %}
-    <p>Hello, {{ current_user.name }}! Select a project to work on.</p>
-    {% for project in current_user.created_projects %}
-        <a href="{{ url_for('project', project_id=project.id) }}">{{ project.name }}</a><br>
-    {% endfor %}
+    {% if current_user.created_projects %}
+        <p>Hello, {{ current_user.name }}! Select a project to work on.</p>
+        <p>Your Projects:</p>
+        <ul>
+            {% for project in current_user.created_projects %}
+                <li><a href="{{ url_for('project', project_id=project.id) }}">{{ project.name }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+    <p>Hello, {{ current_user.name }}! You don't have any projects yet. Click Create Project to get started!</p>
+    {% endif %}
+    {% if current_user.invited_projects %}
+        <p>Invited Projects:</p>
+        <ul>
+            {% for project in current_user.invited_projects %}
+                <li><a href="{{ url_for('project', project_id=project.id) }}">{{ project.name }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+
 {% else %}
     <span>Hello, World!</span>
 {% endif %}
