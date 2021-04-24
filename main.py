@@ -8,7 +8,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import os
 from dotenv import load_dotenv
 from datetime import datetime as dt
-from forms import CreateTicketForm, CreateProjectForm, LoginForm, RegisterForm
+from forms import CreateTicketForm, CreateProjectForm, LoginForm, RegisterForm, AddUserForm
 load_dotenv()
 
 
@@ -25,6 +25,23 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 
+invited_projects = db.Table(
+    'invited_projects',
+    db.Column(
+        'user_id',
+        db.Integer,
+        db.ForeignKey('users.id'),
+        primary_key=True
+    ),
+    db.Column(
+        'project_id',
+        db.Integer,
+        db.ForeignKey('projects.id'),
+        primary_key=True
+    )
+)
+
+
 class User(UserMixin, db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
@@ -33,6 +50,8 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(100), nullable=False)
     created_projects = relationship("Project", back_populates="creator")
     created_tickets = relationship("Ticket", back_populates="creator")
+    invited_projects = relationship(
+        "Project", secondary=invited_projects, back_populates="invited_users")
 
 
 class Project(db.Model):
@@ -42,10 +61,11 @@ class Project(db.Model):
     summary = db.Column(db.String(250), nullable=False)
     description = db.Column(db.String(500), nullable=False)
     time = db.Column(db.String(50), nullable=False)
-    tags = db.Column(db.String(500))
     tickets = relationship("Ticket", back_populates="project")
     creator_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     creator = relationship("User", back_populates="created_projects")
+    invited_users = relationship(
+        "User", secondary=invited_projects, back_populates="invited_projects")
 
 
 class Ticket(db.Model):
@@ -57,7 +77,6 @@ class Ticket(db.Model):
     time = db.Column(db.String(50), nullable=False)
     category = db.Column(db.String(50), nullable=False)
     status = db.Column(db.String(10), nullable=False)
-    tags = db.Column(db.String(500))
     project_id = db.Column(db.Integer, db.ForeignKey("projects.id"))
     project = relationship("Project", back_populates="tickets")
     creator_id = db.Column(db.Integer, db.ForeignKey("users.id"))
@@ -132,7 +151,6 @@ def create_project():
             summary=form.summary.data,
             description=form.description.data,
             time=dt.now(),
-            tags="",
             creator=current_user
         )
         db.session.add(new_project)
@@ -166,6 +184,20 @@ def create_ticket(project_id):
 def project(project_id):
     project = Project.query.get(project_id)
     return render_template('project.html', project=project)
+
+
+@app.route('/project/<int:project_id>/add-user', methods=["GET", "POST"])
+@login_required
+def add_user(project_id):
+    form = AddUserForm()
+    if form.validate_on_submit():
+        user_to_add = User.query.filter_by(email=form.email.data).first()
+        project = Project.query.get(project_id)
+        project.invited_users.append(user_to_add)
+        db.session.add(project)
+        db.session.commit()
+        return redirect(url_for('project', project_id=project_id))
+    return render_template('add_user.html', form=form)
 
 
 if __name__ == "__main__":
