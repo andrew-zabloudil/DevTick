@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
+from functools import wraps
 from dotenv import load_dotenv
 from datetime import datetime as dt
 from forms import CreateTicketForm, CreateProjectForm, LoginForm, RegisterForm, AddUserForm
@@ -91,6 +92,20 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
+def associated_user(f):
+    @wraps(f)
+    def decorated_function(project_id, *args, **kwargs):
+        project = Project.query.get(project_id)
+        if not current_user.id == project.creator_id:
+            for user in project.invited_users:
+                if current_user.id == user.id:
+                    return f(project_id, *args, **kwargs)
+            return abort(403)
+        else:
+            return f(project_id, *args, **kwargs)
+    return decorated_function
+
+
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -161,6 +176,7 @@ def create_project():
 
 @app.route('/project/<int:project_id>/create-ticket', methods=["GET", "POST"])
 @login_required
+@associated_user
 def create_ticket(project_id):
     form = CreateTicketForm()
     if form.validate_on_submit():
@@ -181,6 +197,7 @@ def create_ticket(project_id):
 
 
 @app.route('/project/<int:project_id>')
+@associated_user
 def project(project_id):
     project = Project.query.get(project_id)
     return render_template('project.html', project=project)
@@ -188,6 +205,7 @@ def project(project_id):
 
 @app.route('/project/<int:project_id>/add-user', methods=["GET", "POST"])
 @login_required
+@associated_user
 def add_user(project_id):
     form = AddUserForm()
     if form.validate_on_submit():
