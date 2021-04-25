@@ -18,6 +18,10 @@ class CreateProjectForm(FlaskForm):
 ticket_categories = [
     ('bug', 'Bug'), ('pf', 'Planned Feature'), ('ud', 'Update')]
 
+user_categories = [
+    ('admin', 'Admin'), ('editor', 'Editor'), ('viewer', 'Viewer')
+]
+
 
 class CreateTicketForm(FlaskForm):
     name = StringField("Ticket Name", validators=[DataRequired()])
@@ -43,6 +47,7 @@ class LoginForm(FlaskForm):
 
 class AddUserForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired(), Email()])
+    role = SelectField(u'Category', choices=user_categories)
     submit = SubmitField("Add User")
 
 
