@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
+import re
 from functools import wraps
 from dotenv import load_dotenv
 from datetime import datetime as dt
@@ -19,8 +20,11 @@ app.config['SECRET_KEY'] = os.getenv("FLASK_SECRET_KEY")
 bootstrap = Bootstrap(app)
 ckeditor = CKEditor(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
+uri = os.getenv(
     "DATABASE_URL", "sqlite:///devtick.db")
+if uri.startswith("postgres://"):
+    uri = uri.replace("postgres://", "postgresql://", 1)
+app.config['SQLALCHEMY_DATABASE_URI'] = uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
