@@ -19,7 +19,8 @@ app.config['SECRET_KEY'] = os.getenv("FLASK_SECRET_KEY")
 bootstrap = Bootstrap(app)
 ckeditor = CKEditor(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
+    "DATABASE_URL", "sqlite:///devtick.db")
 db = SQLAlchemy(app)
 
 login_manager = LoginManager()
