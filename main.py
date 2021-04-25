@@ -31,14 +31,15 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 
-invited_projects = db.Table(
-    'invited_projects',
-    db.Column('user_id', db.Integer, db.ForeignKey(
-        'users.id'), primary_key=True),
-    db.Column('project_id', db.Integer, db.ForeignKey(
-        'projects.id'), primary_key=True),
-    db.Column('user_role', db.String(10), nullable=False)
-)
+class AssociatedUser(db.Model):
+    __tablename__ = 'associated_users'
+    user_id = db.Column(db.Integer, db.ForeignKey(
+        'users.id'), primary_key=True)
+    project_id = db.Column(db.Integer, db.ForeignKey(
+        'projects.id'), primary_key=True)
+    user_role = db.Column(db.String(10), nullable=False)
+    user = relationship("User", back_populates="invited_projects")
+    project = relationship("Project", back_populates="invited_users")
 
 
 class User(UserMixin, db.Model):
@@ -49,8 +50,7 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(100), nullable=False)
     created_projects = relationship("Project", back_populates="creator")
     created_tickets = relationship("Ticket", back_populates="creator")
-    invited_projects = relationship(
-        "Project", secondary=invited_projects, back_populates="invited_users")
+    invited_projects = relationship("AssociatedUser", back_populates="user")
 
 
 class Project(db.Model):
@@ -63,8 +63,7 @@ class Project(db.Model):
     tickets = relationship("Ticket", back_populates="project")
     creator_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     creator = relationship("User", back_populates="created_projects")
-    invited_users = relationship(
-        "User", secondary=invited_projects, back_populates="invited_projects")
+    invited_users = relationship("AssociatedUser", back_populates="project")
 
 
 class Ticket(db.Model):
@@ -209,8 +208,13 @@ def add_user(project_id):
     if form.validate_on_submit():
         user_to_add = User.query.filter_by(email=form.email.data).first()
         project = Project.query.get(project_id)
-        project.invited_users.append(user_to_add)
-        db.session.add(project)
+        user_role = form.role.data
+        new_association = AssociatedUser(
+            user=user_to_add,
+            project=project,
+            user_role=user_role
+        )
+        db.session.add(new_association)
         db.session.commit()
         return redirect(url_for('project', project_id=project_id))
     return render_template('add_user.html', form=form)
