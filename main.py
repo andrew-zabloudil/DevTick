@@ -33,18 +33,11 @@ login_manager.init_app(app)
 
 invited_projects = db.Table(
     'invited_projects',
-    db.Column(
-        'user_id',
-        db.Integer,
-        db.ForeignKey('users.id'),
-        primary_key=True
-    ),
-    db.Column(
-        'project_id',
-        db.Integer,
-        db.ForeignKey('projects.id'),
-        primary_key=True
-    )
+    db.Column('user_id', db.Integer, db.ForeignKey(
+        'users.id'), primary_key=True),
+    db.Column('project_id', db.Integer, db.ForeignKey(
+        'projects.id'), primary_key=True)
+    db.Column('user_role', db.String(10), nullable=False)
 )
 
 
