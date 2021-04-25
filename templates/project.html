@@ -14,23 +14,21 @@
   <div>
     <p>Project Creator: {{ project.creator.name }}</p>
     {% if project.invited_users %}
-      <p>Other Users:</p>
-      <ul>
-        {% for user in project.invited_users %}
-          <li>{{ user.name }}</li>
-        {% endfor %}
-      </ul>
+    <p>Other Users:</p>
+    <ul>
+      {% for associated_user in project.invited_users %}
+        <li>{{ associated_user.user.name }}, {{ associated_user.user_role }}</li>
+      {% endfor %}
+    </ul>
     {% endif %}
   </div>
-  {% if project.tickets %}
-    {% for ticket in project.tickets %}
-      <div>
-        <p>Ticket Name: {{ ticket.name }}</p>
-        <p>Ticket Summary: {{ ticket.summary }}</p>
-        <p>Ticket Description: {{ ticket.description|safe }}</p>
-      </div>
-    {% endfor %}
-  {% else %}
+  {% if project.tickets %} {% for ticket in project.tickets %}
+  <div>
+    <p>Ticket Name: {{ ticket.name }}</p>
+    <p>Ticket Summary: {{ ticket.summary }}</p>
+    <p>Ticket Description: {{ ticket.description|safe }}</p>
+  </div>
+  {% endfor %} {% else %}
   <p>
     This project has no tickets yet. Get started now by clicking Create Ticket!
   </p>
