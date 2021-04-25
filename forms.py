@@ -19,7 +19,7 @@ ticket_categories = [
     ('bug', 'Bug'), ('pf', 'Planned Feature'), ('ud', 'Update')]
 
 user_categories = [
-    ('admin', 'Admin'), ('editor', 'Editor'), ('viewer', 'Viewer')
+    ('viewer', 'Viewer'), ('editor', 'Editor'), ('admin', 'Admin')
 ]
 
 
