@@ -22,14 +22,25 @@
     </ul>
     {% endif %}
   </div>
-  {% if project.tickets %} {% for ticket in project.tickets %}
-  <div>
-    <p>Ticket Name: {{ ticket.name }}</p>
-    <p>Ticket Summary: {{ ticket.summary }}</p>
-    <p>Ticket Description: {{ ticket.description|safe }}</p>
-    <a href="{{ url_for('edit_ticket', project_id=project.id, ticket_id=ticket.id) }}">Edit Ticket</a>
-  </div>
-  {% endfor %} {% else %}
+  {% if project.tickets %}
+    {% for ticket in project.tickets %}
+     {% if ticket.status == "Open" %}
+        <div>
+          <p>Ticket Name: {{ ticket.name }}</p>
+          <p>Ticket Summary: {{ ticket.summary }}</p>
+          <p>Ticket Description: {{ ticket.description|safe }}</p>
+          <a href="{{ url_for('edit_ticket', project_id=project.id, ticket_id=ticket.id) }}">Edit Ticket</a>
+        </div>
+      {% else %}
+        <div>
+          <s><p>Ticket Name: {{ ticket.name }}</p>
+          <p>Ticket Summary: {{ ticket.summary }}</p>
+          <p>Ticket Description: {{ ticket.description|safe }}</p></s>
+          <a href="{{ url_for('edit_ticket', project_id=project.id, ticket_id=ticket.id) }}">Edit Ticket</a>
+        </div>
+      {% endif %}
+    {% endfor %}
+  {% else %}
   <p>
     This project has no tickets yet. Get started now by clicking Create Ticket!
   </p>
