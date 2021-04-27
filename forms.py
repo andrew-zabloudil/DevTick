@@ -18,8 +18,12 @@ class CreateProjectForm(FlaskForm):
 ticket_categories = [
     ('bug', 'Bug'), ('pf', 'Planned Feature'), ('ud', 'Update')]
 
+ticket_statuses = [
+    ("Open", "Open"), ("Closed", "Closed")
+]
+
 user_categories = [
-    ('viewer', 'Viewer'), ('editor', 'Editor'), ('admin', 'Admin')
+    ('Viewer', 'Viewer'), ('Editor', 'Editor'), ('Admin', 'Admin')
 ]
 
 
@@ -30,6 +34,16 @@ class CreateTicketForm(FlaskForm):
         "Full Description", validators=[DataRequired()])
     category = SelectField(u'Category', choices=ticket_categories)
     submit = SubmitField("Create Ticket")
+
+
+class EditTicketForm(FlaskForm):
+    name = StringField("Ticket Name", validators=[DataRequired()])
+    summary = StringField("Summary", validators=[DataRequired()])
+    description = CKEditorField(
+        "Full Description", validators=[DataRequired()])
+    category = SelectField(u'Category', choices=ticket_categories)
+    status = SelectField(u'Status', choices=ticket_statuses)
+    submit = SubmitField("Edit Ticket")
 
 
 class RegisterForm(FlaskForm):
