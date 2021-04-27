@@ -10,7 +10,7 @@ import re
 from functools import wraps
 from dotenv import load_dotenv
 from datetime import datetime as dt
-from forms import CreateTicketForm, CreateProjectForm, LoginForm, RegisterForm, AddUserForm
+from forms import CreateTicketForm, EditTicketForm, CreateProjectForm, LoginForm, RegisterForm, AddUserForm
 load_dotenv()
 
 
@@ -191,6 +191,29 @@ def create_ticket(project_id):
         db.session.commit()
         return redirect(url_for('project', project_id=project_id))
     return render_template('create_ticket.html', form=form)
+
+
+@app.route('/project/<int:project_id>/edit-ticket/<int:ticket_id>', methods=["GET", "POST"])
+@login_required
+@associated_user
+def edit_ticket(project_id, ticket_id):
+    ticket = Ticket.query.get(ticket_id)
+    form = EditTicketForm(
+        name=ticket.name,
+        summary=ticket.summary,
+        description=ticket.description,
+        category=ticket.category,
+        status=ticket.status
+    )
+    if form.validate_on_submit():
+        ticket.name = form.name.data
+        ticket.summary = form.summary.data
+        ticket.description = form.description.data
+        ticket.category = form.category.data
+        ticket.status = form.status.data
+        db.session.commit()
+        return redirect(url_for("project", project_id=project_id))
+    return render_template("create_ticket.html", form=form)
 
 
 @app.route('/project/<int:project_id>')
