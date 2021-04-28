@@ -17,7 +17,11 @@
     <p>Other Users:</p>
     <ul>
       {% for associated_user in project.invited_users %}
-        <li>{{ associated_user.user.name }}, {{ associated_user.user_role }} <a href="{{ url_for('remove_user', project_id=project.id, user_id=associated_user.user_id) }}">Remove User</a></li>
+        <li>
+          {{ associated_user.user.name }}, 
+          <a href="{{ url_for('edit_user', project_id=project.id, user_id=associated_user.user_id) }}">{{ associated_user.user_role }}</a> 
+          <a href="{{ url_for('remove_user', project_id=project.id, user_id=associated_user.user_id) }}">Remove User</a>
+        </li>
       {% endfor %}
     </ul>
     {% endif %}
