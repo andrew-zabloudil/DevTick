@@ -1,14 +1,14 @@
 {% include "header.html" %}
 
-<div>
+<nav id="sub-nav">
   {% if is_editor(project.id) or is_admin(project.id) or is_creator(project.id) %}
-    <a href="{{ url_for('create_ticket', project_id=project.id) }}">Create Ticket</a>
+    <a href="{{ url_for('create_ticket', project_id=project.id) }}" class="nav-link">Create Ticket</a>
   {% endif %}
   {% if is_admin(project.id) or is_creator(project.id) %}
-    <a href="{{ url_for('add_user', project_id=project.id) }}">Add User</a>
+    <a href="{{ url_for('add_user', project_id=project.id) }}" class="nav-link">Add User</a>
   {% endif %}
-</div>
-<div>
+</nav>
+<div class="project">
   This is where projects will appear. Project id: {{ project.id }}
   <p>Project Name: {{ project.name }}</p>
   <p>Project Summary: {{ project.summary }}</p>
@@ -39,7 +39,7 @@
   {% else %}
     {% for ticket in project.tickets %}
       {% if ticket.status == "Open" %}
-        <div>
+        <div class="ticket open">
           <p>Ticket Name: {{ ticket.name }}</p>
           <p>Ticket Summary: {{ ticket.summary }}</p>
           <p>Ticket Description: {{ ticket.description|safe }}</p>
@@ -48,10 +48,10 @@
           {% endif %}
         </div>
       {% else %}
-        <div>
-          <s><p>Ticket Name: {{ ticket.name }}</p>
+        <div class="ticket closed">
+          <p>Ticket Name: {{ ticket.name }}</p>
           <p>Ticket Summary: {{ ticket.summary }}</p>
-          <p>Ticket Description: {{ ticket.description|safe }}</p></s>
+          <p>Ticket Description: {{ ticket.description|safe }}</p>
           {% if not is_viewer(project.id) %}
             <a href="{{ url_for('edit_ticket', project_id=project.id, ticket_id=ticket.id) }}">Edit Ticket</a>
           {% endif %}
