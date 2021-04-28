@@ -243,5 +243,18 @@ def add_user(project_id):
     return render_template('add_user.html', form=form)
 
 
+@app.route('/project/<int:project_id>/remove-user/<int:user_id>')
+@login_required
+@associated_user
+def remove_user(project_id, user_id):
+    user = User.query.get(user_id)
+    project = Project.query.get(project_id)
+    association = AssociatedUser.query.filter_by(
+        project=project).filter_by(user=user).first()
+    db.session.delete(association)
+    db.session.commit()
+    return redirect(url_for('project', project_id=project_id))
+
+
 if __name__ == "__main__":
     app.run(debug=True)
