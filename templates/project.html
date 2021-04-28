@@ -1,10 +1,12 @@
 {% include "header.html" %}
 
 <div>
-  <a href="{{ url_for('create_ticket', project_id=project.id) }}"
-    >Create Ticket</a
-  >
-  <a href="{{ url_for('add_user', project_id=project.id) }}">Add User</a>
+  {% if is_editor(project.id) or is_admin(project.id) or is_creator(project.id) %}
+    <a href="{{ url_for('create_ticket', project_id=project.id) }}">Create Ticket</a>
+  {% endif %}
+  {% if is_admin(project.id) or is_creator(project.id) %}
+    <a href="{{ url_for('add_user', project_id=project.id) }}">Add User</a>
+  {% endif %}
 </div>
 <div>
   This is where projects will appear. Project id: {{ project.id }}
@@ -18,9 +20,13 @@
     <ul>
       {% for associated_user in project.invited_users %}
         <li>
-          {{ associated_user.user.name }}, 
-          <a href="{{ url_for('edit_user', project_id=project.id, user_id=associated_user.user_id) }}">{{ associated_user.user_role }}</a> 
-          <a href="{{ url_for('remove_user', project_id=project.id, user_id=associated_user.user_id) }}">Remove User</a>
+          {{ associated_user.user.name }},
+          {% if is_creator(project.id) or is_admin(project.id) %}
+            <a href="{{ url_for('edit_user', project_id=project.id, user_id=associated_user.user_id) }}"> {{ associated_user.user_role }} </a>
+            <a href="{{ url_for('remove_user', project_id=project.id, user_id=associated_user.user_id) }}">Remove User</a>
+          {% else %}
+            <span>{{ associated_user.user_role }}</span>
+          {% endif %}
         </li>
       {% endfor %}
     </ul>
