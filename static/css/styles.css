@@ -23,3 +23,22 @@ body {
   justify-content: space-between;
   align-items: center;
 }
+
+.nav {
+  justify-content: right;
+  display: flex;
+  font-size: 1.2rem;
+  margin-right: 3rem;
+}
+
+.nav-link {
+  color: #e91e63;
+  text-decoration: none;
+  line-height: 4rem;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.nav-link:last-child {
+  padding-right: 0;
+}
