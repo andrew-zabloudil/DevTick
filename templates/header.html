@@ -15,7 +15,7 @@
   </head>
   <body>
     <!-- add nav bar here -->
-    <nav id="navbar" class="nav">
+    <nav id="navbar">
       <a href="{{ url_for('home') }}" class="nav-link">Home</a>
       {% if current_user.is_authenticated %}
       <a href="{{ url_for('create_project') }}" class="nav-link">Create Project</a>
