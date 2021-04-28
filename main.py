@@ -90,21 +90,30 @@ def is_creator(project_id):
 
 
 def is_admin(project_id):
-    association = AssociatedUser.query.filter_by(
-        project_id=project_id).filter_by(user_id=current_user.id).first()
-    return association.user_role == "Admin"
+    if not is_creator(project_id):
+        association = AssociatedUser.query.filter_by(
+            project_id=project_id).filter_by(user_id=current_user.id).first()
+        return association.user_role == "Admin"
 
 
 def is_editor(project_id):
-    association = AssociatedUser.query.filter_by(
-        project_id=project_id).filter_by(user_id=current_user.id).first()
-    return association.user_role == "Editor"
+    if not is_creator(project_id):
+        association = AssociatedUser.query.filter_by(
+            project_id=project_id).filter_by(user_id=current_user.id).first()
+        return association.user_role == "Editor"
 
 
 def is_viewer(project_id):
-    association = AssociatedUser.query.filter_by(
-        project_id=project_id).filter_by(user_id=current_user.id).first()
-    return association.user_role == "Viewer"
+    if not is_creator(project_id):
+        association = AssociatedUser.query.filter_by(
+            project_id=project_id).filter_by(user_id=current_user.id).first()
+        return association.user_role == "Viewer"
+
+
+app.jinja_env.globals.update(is_creator=is_creator)
+app.jinja_env.globals.update(is_admin=is_admin)
+app.jinja_env.globals.update(is_editor=is_editor)
+app.jinja_env.globals.update(is_viewer=is_viewer)
 
 
 @login_manager.user_loader
@@ -115,11 +124,11 @@ def load_user(user_id):
 def associated_user(f):
     @wraps(f)
     def decorated_function(project_id, *args, **kwargs):
-        project = Project.query.get(project_id)
-        if not current_user.id == project.creator_id:
-            for user in project.invited_users:
-                if current_user.id == user.id:
-                    return f(project_id, *args, **kwargs)
+        if not is_creator(project_id):
+            association = AssociatedUser.query.filter_by(
+                project_id=project_id).filter_by(user_id=current_user.id).first()
+            if association:
+                return f(project_id, *args, **kwargs)
             return abort(403)
         else:
             return f(project_id, *args, **kwargs)
