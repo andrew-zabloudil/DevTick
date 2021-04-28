@@ -15,13 +15,13 @@
             {% endfor %}
         </ul>
     {% else %}
-    <p>Hello, {{ current_user.name }}! You don't have any projects yet. Click Create Project to get started!</p>
+        <p>Hello, {{ current_user.name }}! You don't have any projects yet. Click Create Project to get started!</p>
     {% endif %}
     {% if current_user.invited_projects %}
         <p>Invited Projects:</p>
         <ul>
-            {% for project in current_user.invited_projects %}
-                <li><a href="{{ url_for('project', project_id=project.id) }}">{{ project.name }}</a></li>
+            {% for association in current_user.invited_projects %}
+                <li><a href="{{ url_for('project', project_id=association.project_id) }}">{{ association.project.name }}</a></li>
             {% endfor %}
         </ul>
     {% endif %}
