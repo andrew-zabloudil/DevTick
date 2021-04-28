@@ -84,6 +84,11 @@ class Ticket(db.Model):
 db.create_all()
 
 
+def is_creator(project_id):
+    project = Project.query.get(project_id)
+    return current_user.id == project.creator_id
+
+
 def is_admin(project_id):
     association = AssociatedUser.query.filter_by(
         project_id=project_id).filter_by(user_id=current_user.id).first()
