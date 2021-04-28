@@ -84,6 +84,24 @@ class Ticket(db.Model):
 db.create_all()
 
 
+def is_admin(project_id):
+    association = AssociatedUser.query.filter_by(
+        project_id=project_id).filter_by(user_id=current_user.id).first()
+    return association.user_role == "Admin"
+
+
+def is_editor(project_id):
+    association = AssociatedUser.query.filter_by(
+        project_id=project_id).filter_by(user_id=current_user.id).first()
+    return association.user_role == "Editor"
+
+
+def is_viewer(project_id):
+    association = AssociatedUser.query.filter_by(
+        project_id=project_id).filter_by(user_id=current_user.id).first()
+    return association.user_role == "Viewer"
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
