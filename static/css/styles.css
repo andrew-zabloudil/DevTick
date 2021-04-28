@@ -19,7 +19,35 @@
   background-color: grey;
 }
 
+#sub-nav {
+  height: 4rem;
+  width: 100%;
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: grey;
+}
+
 .nav-link {
   text-decoration: none;
   color: blue;
+}
+
+.project {
+  width: 50%;
+  height: auto;
+  margin: 1rem;
+}
+
+.ticket {
+  border: 1px;
+}
+
+.open {
+  text-decoration: none;
+}
+
+.closed {
+  text-decoration: line-through;
 }
