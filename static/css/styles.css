@@ -17,6 +17,7 @@
   justify-content: space-between;
   align-items: center;
   background-color: grey;
+  position: 0 0 0 0;
 }
 
 #sub-nav {
@@ -27,6 +28,7 @@
   justify-content: space-between;
   align-items: center;
   background-color: grey;
+  position: 4rem 0 0 0;
 }
 
 .nav-link {
@@ -41,7 +43,8 @@
 }
 
 .ticket {
-  border: 1px;
+  border: 1 1 1 1;
+  border-style: solid;
 }
 
 .open {
