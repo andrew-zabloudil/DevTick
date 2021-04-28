@@ -256,5 +256,24 @@ def remove_user(project_id, user_id):
     return redirect(url_for('project', project_id=project_id))
 
 
+@app.route('/project/<int:project_id>/edit-user/<int:user_id>', methods=["GET", "POST"])
+@login_required
+@associated_user
+def edit_user(project_id, user_id):
+    user = User.query.get(user_id)
+    project = Project.query.get(project_id)
+    association = AssociatedUser.query.filter_by(
+        project=project).filter_by(user=user).first()
+    form = AddUserForm(
+        email=user.email
+    )
+    if form.validate_on_submit():
+        new_role = form.role.data
+        association.user_role = new_role
+        db.session.commit()
+        return redirect(url_for('project', project_id=project_id))
+    return render_template('add_user.html', form=form)
+
+
 if __name__ == "__main__":
     app.run(debug=True)
