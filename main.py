@@ -85,7 +85,7 @@ db.create_all()
 
 
 def is_creator(project_id):
-    project = Project.query.filter_by(project_id=project_id).first()
+    project = Project.query.get(project_id)
     return current_user.id == project.creator_id
 
 
