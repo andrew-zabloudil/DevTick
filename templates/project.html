@@ -2,10 +2,10 @@
 
 <nav id="sub-nav">
   {% if is_editor(project.id) or is_admin(project.id) or is_creator(project.id) %}
-    <a href="{{ url_for('create_ticket', project_id=project.id) }}" class="nav-link">Create Ticket</a>
+    <a href="{{ url_for('create_ticket', project_id=project.id) }}" class="nav-link nav-button">Create Ticket</a>
   {% endif %}
   {% if is_admin(project.id) or is_creator(project.id) %}
-    <a href="{{ url_for('add_user', project_id=project.id) }}" class="nav-link">Add User</a>
+    <a href="{{ url_for('add_user', project_id=project.id) }}" class="nav-link nav-button">Add User</a>
   {% endif %}
 </nav>
 <div class="project">
