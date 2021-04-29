@@ -62,7 +62,7 @@ class LoginForm(FlaskForm):
 class AddUserForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired(), Email()])
     role = SelectField(u'Role', choices=user_categories)
-    submit = SubmitField("Add User")
+    submit = SubmitField("Submit")
 
 
 # class CommentForm(FlaskForm):
