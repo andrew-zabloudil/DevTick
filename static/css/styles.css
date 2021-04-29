@@ -60,6 +60,29 @@ body {
   margin: 0 1rem;
 }
 
+.project-name {
+  font-weight: bold;
+  font-size: 5rem;
+}
+
+.project-summary {
+  font-weight: bold;
+  font-size: 2.5rem;
+}
+
+.project-desc {
+  font-size: 1.25rem;
+}
+
+.project-creator {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.project-creator span {
+  font-weight: normal;
+}
+
 .user-list {
   list-style: none;
   border-width: 2px;
