@@ -41,6 +41,7 @@ body {
 }
 
 .nav-button {
+  text-decoration: none;
   border-style: solid;
   border-radius: 0.5rem;
   border-width: 2px;
@@ -49,10 +50,30 @@ body {
   background-color: white;
 }
 
+.warning {
+  color: red;
+}
+
 .project {
   width: 50%;
   height: auto;
   margin: 0 1rem;
+}
+
+.user-list {
+  list-style: none;
+  border-width: 2px;
+  border-style: solid;
+  padding: 1rem;
+  margin: 0.5rem;
+}
+
+.user-list-items {
+  text-decoration: none;
+  margin: 1rem;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 .ticket {
