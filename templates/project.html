@@ -9,13 +9,11 @@
   {% endif %}
 </nav>
 <div class="project">
-  This is where projects will appear. Project id: {{ project.id }}
-  <p>Project Name: {{ project.name }}</p>
-  <p>Project Summary: {{ project.summary }}</p>
-  <p>Project Description: {{ project.description|safe }}</p>
-  <div>
-    <p>Project Creator: {{ project.creator.name }}</p>
-    {% if project.invited_users %}
+  <p class="project-name">{{ project.name }}</p>
+  <p class="project-summary">{{ project.summary }}</p>
+  <div class="project-desc">{{ project.description|safe }}</div>
+  <p class="project-creator">Created by: <span>{{ project.creator.name }}</span></p>
+  {% if project.invited_users %}
     <ul class="user-list">
       <p>Other Users:</p>
       {% for associated_user in project.invited_users %}
@@ -30,8 +28,7 @@
         </li>
       {% endfor %}
     </ul>
-    {% endif %}
-  </div>
+  {% endif %}
   {% if not project.tickets %}
   <p>
     This project has no tickets yet. Get started now by clicking Create Ticket!
