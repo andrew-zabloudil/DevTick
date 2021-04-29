@@ -45,6 +45,7 @@
 .ticket {
   border-width: 2px;
   border-style: solid;
+  padding: 1rem;
 }
 
 .open {
