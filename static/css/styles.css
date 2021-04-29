@@ -9,6 +9,10 @@
   font-family: "Mukta", sans-serif;
 }
 
+body {
+  padding-top: 4rem;
+}
+
 #navbar {
   height: 4rem;
   width: 100%;
@@ -21,13 +25,13 @@
 }
 
 #sub-nav {
-  height: 4rem;
+  height: 3rem;
   width: 100%;
-  position: fixed;
+  position: sticky;
   display: flex;
-  justify-content: space-between;
+  justify-content: left;
   align-items: center;
-  background-color: grey;
+  background-color: transparent;
   top: 4rem;
 }
 
@@ -36,10 +40,19 @@
   color: blue;
 }
 
+.nav-button {
+  border-style: solid;
+  border-radius: 0.5rem;
+  border-width: 2px;
+  padding: 0.25rem 0.5rem;
+  margin: 0.25rem;
+  background-color: white;
+}
+
 .project {
   width: 50%;
   height: auto;
-  margin: 1rem;
+  margin: 0 1rem;
 }
 
 .ticket {
