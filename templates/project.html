@@ -38,7 +38,7 @@
       <p>This project has no tickets yet. Get started now by clicking Create Ticket!</p>
     {% else %}
       {% for category, tickets in project.tickets|groupby("category") %}
-        <div class="{{ category }} flex-container flex-col">
+        <div class="{{ category.lower() }} flex-container flex-col">
           <span>{{ category.capitalize() }}</span>
           {% for status, items in tickets|groupby("status")|reverse %}
             {% for ticket in items %}
