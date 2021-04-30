@@ -39,6 +39,7 @@
     {% else %}
       {% for category, tickets in project.tickets|groupby("category") %}
         <div class="{{ category }} flex-container flex-col">
+          <span>{{ category.capitalize() }}</span>
           {% for status, items in tickets|groupby("status")|reverse %}
             {% for ticket in items %}
               <div class="ticket">
