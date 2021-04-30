@@ -118,9 +118,9 @@ body {
 .user-list-items {
   text-decoration: none;
   margin: 1rem;
-  display: flex;
-  justify-content: space-evenly;
   align-items: center;
+  display: grid;
+  grid-template-columns: 5rem 3.5rem 8rem;
 }
 
 /* Ticket Pane */
