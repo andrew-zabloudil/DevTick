@@ -16,7 +16,7 @@ class CreateProjectForm(FlaskForm):
 
 
 ticket_categories = [
-    ('bug', 'Bug'), ('pf', 'Planned Feature'), ('ud', 'Update')]
+    ('bug', 'Bug'), ('planned feature', 'Planned Feature'), ('update', 'Update')]
 
 ticket_statuses = [
     ("Open", "Open"), ("Closed", "Closed")
