@@ -17,17 +17,23 @@
       <p class="project-creator">Created by: <span>{{ project.creator.name }}</span></p>
       {% if project.invited_users %}
         <ul class="user-list">
-          <p>Other Users:</p>
-          {% for associated_user in project.invited_users %}
-            <li class="user-list-items">
-              {{ associated_user.user.name }}
-              {% if is_creator(project.id) or is_admin(project.id) %}
-                <a href="{{ url_for('edit_user', project_id=project.id, user_id=associated_user.user_id) }}">{{ associated_user.user_role }}</a>
-                <a href="{{ url_for('remove_user', project_id=project.id, user_id=associated_user.user_id) }}" class="nav-button warning">Remove User</a>
-              {% else %}
-                <span>{{ associated_user.user_role }}</span>
-              {% endif %}
-            </li>
+          <p>Project Members:</p>
+          <li class="user-list-items">
+            <span>{{ project.creator.name }}</span>
+            <span>Creator</span>
+          </li>
+          {% for user_role, users in project.invited_users|groupby("user_role") %}
+            {% for user in users %}
+              <li class="user-list-items">
+                <span>{{ user.user.name }}</span>
+                {% if is_creator(project.id) or is_admin(project.id) %}
+                  <a href="{{ url_for('edit_user', project_id=project.id, user_id=user.user_id) }}">{{ user.user_role }}</a>
+                  <a href="{{ url_for('remove_user', project_id=project.id, user_id=user.user_id) }}" class="nav-button warning">Remove User</a>
+                {% else %}
+                  <span>{{ user.user_role }}</span>
+                {% endif %}
+              </li>
+            {% endfor %}
           {% endfor %}
         </ul>
       {% endif %}
