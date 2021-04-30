@@ -130,23 +130,35 @@ body {
   justify-content: space-evenly;
 }
 
+.bug,
+.planned-feature,
+.update {
+  width: 33%;
+}
+
 .ticket {
-  border-width: 2px;
+  border-width: 1px;
   border-style: solid;
+  border-radius: 0.5rem;
   padding: 1rem;
   margin: 0.5rem;
 }
 
 .open {
   text-decoration: none;
+  margin-bottom: 0.75rem;
 }
 
 .closed {
   text-decoration: line-through;
+  margin-bottom: 0.75rem;
 }
 
-.bug,
-.planned,
-.update {
-  width: 33%;
+.edit-button {
+  text-decoration: none;
+  border-style: solid;
+  border-radius: 0.5rem;
+  border-width: 2px;
+  padding: 0.25rem 0.5rem;
+  background-color: white;
 }
