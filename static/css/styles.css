@@ -1,3 +1,5 @@
+/* General Styles */
+
 * {
   margin: 0;
   padding: 0;
@@ -13,6 +15,8 @@ body {
   padding-top: 4rem;
 }
 
+/* Flexbox Helper Classes */
+
 .flex-container {
   display: flex;
 }
@@ -24,6 +28,14 @@ body {
 .flex-col {
   flex-direction: column;
 }
+
+/* General Helper Classes */
+
+.warning {
+  color: red;
+}
+
+/* Navigation */
 
 #navbar {
   height: 4rem;
@@ -62,9 +74,7 @@ body {
   background-color: white;
 }
 
-.warning {
-  color: red;
-}
+/* Project Pane */
 
 .project-pane {
   width: 30%;
@@ -112,6 +122,8 @@ body {
   justify-content: space-evenly;
   align-items: center;
 }
+
+/* Ticket Pane */
 
 .ticket-pane {
   width: 70%;
