@@ -1,64 +1,61 @@
 {% include "header.html" %}
 
-<nav id="sub-nav">
-  {% if is_editor(project.id) or is_admin(project.id) or is_creator(project.id) %}
-    <a href="{{ url_for('create_ticket', project_id=project.id) }}" class="nav-button">Create Ticket</a>
-  {% endif %}
-  {% if is_admin(project.id) or is_creator(project.id) %}
-    <a href="{{ url_for('add_user', project_id=project.id) }}" class="nav-button">Add User</a>
-  {% endif %}
-</nav>
-<div class="project">
-  <p class="project-name">{{ project.name }}</p>
-  <p class="project-summary">{{ project.summary }}</p>
-  <div class="project-desc">{{ project.description|safe }}</div>
-  <p class="project-creator">Created by: <span>{{ project.creator.name }}</span></p>
-  {% if project.invited_users %}
-    <ul class="user-list">
-      <p>Other Users:</p>
-      {% for associated_user in project.invited_users %}
-        <li class="user-list-items">
-          {{ associated_user.user.name }}
-          {% if is_creator(project.id) or is_admin(project.id) %}
-            <a href="{{ url_for('edit_user', project_id=project.id, user_id=associated_user.user_id) }}">{{ associated_user.user_role }}</a>
-            <a href="{{ url_for('remove_user', project_id=project.id, user_id=associated_user.user_id) }}" class="nav-button warning">Remove User</a>
-          {% else %}
-            <span>{{ associated_user.user_role }}</span>
-          {% endif %}
-        </li>
+<div class="flex-container flex-row">
+  <div class="project-pane flex-container flex-col">
+    <nav id="sub-nav">
+      {% if is_editor(project.id) or is_admin(project.id) or is_creator(project.id) %}
+        <a href="{{ url_for('create_ticket', project_id=project.id) }}" class="nav-button">Create Ticket</a>
+      {% endif %}
+      {% if is_admin(project.id) or is_creator(project.id) %}
+        <a href="{{ url_for('add_user', project_id=project.id) }}" class="nav-button">Add User</a>
+      {% endif %}
+    </nav>
+    <div class="project">
+      <p class="project-name">{{ project.name }}</p>
+      <p class="project-summary">{{ project.summary }}</p>
+      <div class="project-desc">{{ project.description|safe }}</div>
+      <p class="project-creator">Created by: <span>{{ project.creator.name }}</span></p>
+      {% if project.invited_users %}
+        <ul class="user-list">
+          <p>Other Users:</p>
+          {% for associated_user in project.invited_users %}
+            <li class="user-list-items">
+              {{ associated_user.user.name }}
+              {% if is_creator(project.id) or is_admin(project.id) %}
+                <a href="{{ url_for('edit_user', project_id=project.id, user_id=associated_user.user_id) }}">{{ associated_user.user_role }}</a>
+                <a href="{{ url_for('remove_user', project_id=project.id, user_id=associated_user.user_id) }}" class="nav-button warning">Remove User</a>
+              {% else %}
+                <span>{{ associated_user.user_role }}</span>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+  </div>
+  <div class="ticket-pane flex-container flex-row">
+    {% if not project.tickets %}
+      <p>This project has no tickets yet. Get started now by clicking Create Ticket!</p>
+    {% else %}
+      {% for category, tickets in project.tickets|groupby("category") %}
+        <div class="{{ category }} flex-container flex-col">
+          {% for status, items in tickets|groupby("status")|reverse %}
+            {% for ticket in items %}
+              <div class="ticket">
+                <p class="{{ status.lower() }}">Ticket Name: {{ ticket.name }}</p>
+                <p class="{{ status.lower() }}">Ticket Summary: {{ ticket.summary }}</p>
+                <div class="{{ status.lower() }}">Ticket Description: {{ ticket.description|safe }}</div>
+                {% if not is_viewer(project.id) %}
+                  <a href="{{ url_for('edit_ticket', project_id=project.id, ticket_id=ticket.id) }}" class="nav-button">Edit Ticket</a>
+                {% endif %}
+              </div>
+            {% endfor %}
+          {% endfor %}
+        </div>
       {% endfor %}
-    </ul>
-  {% endif %}
-  {% if not project.tickets %}
-  <p>
-    This project has no tickets yet. Get started now by clicking Create Ticket!
-  </p>
-  {% else %}
-    {% for ticket in project.tickets %}
-      {% if ticket.status == "Open" %}
-        <div class="ticket">
-          <p class="open">Ticket Name: {{ ticket.name }}</p>
-          <p class="open">Ticket Summary: {{ ticket.summary }}</p>
-          <div class="open">Ticket Description: {{ ticket.description|safe }}</div>
-          {% if not is_viewer(project.id) %}
-            <a href="{{ url_for('edit_ticket', project_id=project.id, ticket_id=ticket.id) }}" class="nav-button">Edit Ticket</a>
-          {% endif %}
-        </div>
-      {% endif %}
-    {% endfor %}
-    {% for ticket in project.tickets %}
-      {% if ticket.status == "Closed" %}
-        <div class="ticket">
-          <p class="closed">Ticket Name: {{ ticket.name }}</p>
-          <p class="closed">Ticket Summary: {{ ticket.summary }}</p>
-          <div class="closed">Ticket Description: {{ ticket.description|safe }}</div>
-          {% if not is_viewer(project.id) %}
-            <a href="{{ url_for('edit_ticket', project_id=project.id, ticket_id=ticket.id) }}" class="nav-button">Edit Ticket</a>
-          {% endif %}
-        </div>
-      {% endif %}
-    {% endfor %}
-  {% endif %}
+    {% endif %}
+  </div>
 </div>
+
 
 {% include "footer.html" %}
