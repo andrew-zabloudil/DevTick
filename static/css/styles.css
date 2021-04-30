@@ -114,7 +114,8 @@ body {
 }
 
 .ticket-pane {
-  width: auto;
+  width: 70%;
+  justify-content: space-evenly;
 }
 
 .ticket {
@@ -130,4 +131,10 @@ body {
 
 .closed {
   text-decoration: line-through;
+}
+
+.bug,
+.planned,
+.update {
+  width: 33%;
 }
