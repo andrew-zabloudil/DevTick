@@ -11,9 +11,9 @@ from functools import wraps
 from dotenv import load_dotenv
 from datetime import datetime as dt
 from forms import CreateTicketForm, EditTicketForm, CreateProjectForm, LoginForm, RegisterForm, AddUserForm
+
+
 load_dotenv()
-
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv("FLASK_SECRET_KEY")
 
@@ -201,6 +201,25 @@ def create_project():
         db.session.commit()
         return redirect(url_for('home'))
     return render_template('create_project.html', form=form)
+
+
+@app.route('/project/<int:project_id>/edit-project/', methods=["GET", "POST"])
+@login_required
+@associated_user
+def edit_project(project_id):
+    project = Project.query.get(project_id)
+    form = CreateProjectForm(
+        name=project.name,
+        summary=project.summary,
+        description=project.description
+    )
+    if form.validate_on_submit():
+        project.name = form.name.data
+        project.summary = form.summary.data
+        project.description = form.description.data
+        db.session.commit()
+        return redirect(url_for("project", project_id=project_id))
+    return render_template("create_project.html", form=form)
 
 
 @app.route('/project/<int:project_id>/create-ticket', methods=["GET", "POST"])
