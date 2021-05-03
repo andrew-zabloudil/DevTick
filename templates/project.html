@@ -3,6 +3,9 @@
 <div class="flex-container flex-row">
   <div class="project-pane flex-container flex-col">
     <nav id="sub-nav">
+      {% if is_creator(project.id) %}
+       <a href="{{ url_for('edit_project', project_id=project.id) }}" class="nav-button">Edit Project</a>
+      {% endif %}
       {% if is_editor(project.id) or is_admin(project.id) or is_creator(project.id) %}
         <a href="{{ url_for('create_ticket', project_id=project.id) }}" class="nav-button">Create Ticket</a>
       {% endif %}
