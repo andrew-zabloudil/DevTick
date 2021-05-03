@@ -15,9 +15,9 @@
     </nav>
     <div class="project">
       <p class="project-name">{{ project.name }}</p>
+      <p class="project-creator">Created by: <span>{{ project.creator.name }}</span></p>
       <p class="project-summary">{{ project.summary }}</p>
       <div class="project-desc">{{ project.description|safe }}</div>
-      <p class="project-creator">Created by: <span>{{ project.creator.name }}</span></p>
       {% if project.invited_users %}
         <ul class="user-list">
           <p>Project Members:</p>
