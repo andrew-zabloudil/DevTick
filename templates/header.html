@@ -11,19 +11,27 @@
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 
+    <script src="https://kit.fontawesome.com/6f0c8f0d61.js" crossorigin="anonymous"></script>
+
     <title>DevTick</title>
   </head>
   <body>
     <!-- add nav bar here -->
-    <nav id="navbar">
-      <a href="{{ url_for('home') }}" class="nav-link">Home</a>
-      {% if current_user.is_authenticated %}
-      <a href="{{ url_for('create_project') }}" class="nav-link">Create Project</a>
-      <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
-      {% else %}
-      <a href="{{ url_for('login') }}" class="nav-link">Login</a>
-      <a href="{{ url_for('register') }}" class="nav-link">Register</a>
-      {% endif %}
-    </nav>
+    <div class="nav-container flex-container flex-row" id="navbar">
+      <div class="logo-container">
+        <a href="https://andrew-zabloudil.me" class="logo">AZ</a>
+      </div>
+      <nav>
+        <a href="{{ url_for('home') }}" class="nav-link">Home</a>
+        {% if current_user.is_authenticated %}
+        <a href="{{ url_for('create_project') }}" class="nav-link">Create Project</a>
+        <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
+        {% else %}
+        <a href="{{ url_for('login') }}" class="nav-link">Login</a>
+        <a href="{{ url_for('register') }}" class="nav-link">Register</a>
+        {% endif %}
+      </nav>
+    </div>
+
   </body>
 </html>
