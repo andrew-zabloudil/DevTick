@@ -45,8 +45,9 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #ab987a;
+  background-color: #fff;
   top: 0;
+  box-shadow: 0 0.125rem 1rem rgba(0, 0, 0, 0.2);
 }
 
 .logo-container {
@@ -66,17 +67,17 @@ nav:last-child {
 
 #sub-nav {
   height: 3rem;
-  width: 100%;
   display: flex;
-  justify-content: left;
+  justify-content: space-evenly;
   align-items: center;
   background-color: transparent;
   top: 4rem;
+  margin: 0 auto;
 }
 
 .nav-link {
   text-decoration: none;
-  color: #f9f7f7;
+  color: #0f1626;
   padding-left: 1rem;
   font-size: 1rem;
   font-weight: bold;
@@ -110,11 +111,13 @@ nav:last-child {
 .project-name {
   font-weight: bold;
   font-size: 5rem;
+  padding-bottom: 0.5rem;
 }
 
 .project-summary {
   font-weight: bold;
   font-size: 2rem;
+  padding-bottom: 0.5rem;
 }
 
 .project-desc {
@@ -123,14 +126,15 @@ nav:last-child {
 
 .project-creator {
   font-weight: bold;
-  font-size: 2rem;
+  font-size: 1.5rem;
+  padding-bottom: 0.5rem;
 }
 
 .project-creator span {
   font-weight: normal;
 }
 
-.user-list {
+#user-list {
   list-style: none;
   border-width: 2px;
   border-style: solid;
@@ -174,13 +178,25 @@ nav:last-child {
 }
 
 .ticket {
-  border-width: 1px;
-  border-style: solid;
-  border-radius: 0.5rem;
   padding: 1rem;
   margin: 0.5rem;
   background-color: #f9f7f7;
   color: #0f1626;
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.2),
+    0 0.25rem 0.75rem rgba(0, 0, 0, 0.15);
+}
+
+.ticket-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.ticket-summary {
+  font-size: 1.1rem;
+}
+
+.ticket-desc {
+  font-size: 0.9rem;
 }
 
 .open {
@@ -194,8 +210,7 @@ nav:last-child {
 }
 
 .edit-button {
-  text-decoration: none;
-  padding: 0.25rem 0.5rem;
   color: black;
   float: right;
+  padding-left: 0.75rem;
 }
