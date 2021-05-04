@@ -121,21 +121,21 @@ nav:last-child {
 
 .greeting {
   font-size: 2rem;
-  padding: 1rem;
+  padding: 1rem 3rem;
 }
 
 .project-container {
   justify-content: space-evenly;
   max-width: 20rem;
   width: auto;
-  padding: 0 1rem;
+  padding: 0 3rem;
 }
 
 .project-list {
   list-style: none;
   width: auto;
   padding: 1rem;
-  margin: 0.5rem;
+  margin: 1rem 0;
   background-color: #f9f7f7;
   color: #0f1626;
   box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.2),
