@@ -4,13 +4,14 @@
   <div class="project-pane flex-container flex-col">
     <nav id="sub-nav">
       {% if is_creator(project.id) %}
-       <a href="{{ url_for('edit_project', project_id=project.id) }}" class="nav-button">Edit Project</a>
+       <a href="{{ url_for('edit_project', project_id=project.id) }}" class="nav-button" title="Edit Project Information"><i class="fas fa-edit"></i></a>
       {% endif %}
       {% if is_editor(project.id) or is_admin(project.id) or is_creator(project.id) %}
-        <a href="{{ url_for('create_ticket', project_id=project.id) }}" class="nav-button">Create Ticket</a>
+        <a href="{{ url_for('create_ticket', project_id=project.id) }}" class="nav-button" title="Create New Ticket"><i class="fas fa-plus-square"></i></a>
       {% endif %}
+      <a href="#user-list" class="nav-button" title="View Users"><i class="fas fa-users"></i></a>
       {% if is_admin(project.id) or is_creator(project.id) %}
-        <a href="{{ url_for('add_user', project_id=project.id) }}" class="nav-button">Add User</a>
+        <a href="{{ url_for('add_user', project_id=project.id) }}" class="nav-button" title="Add User"><i class="fas fa-user-plus"></i></a>
       {% endif %}
     </nav>
     <div class="project">
@@ -19,7 +20,7 @@
       <p class="project-summary">{{ project.summary }}</p>
       <div class="project-desc">{{ project.description|safe }}</div>
       {% if project.invited_users %}
-        <ul class="user-list">
+        <ul id="user-list">
           <p>Project Members:</p>
           <li class="user-list-items">
             <span>{{ project.creator.name }}</span>
@@ -55,9 +56,9 @@
                 {% if not is_viewer(project.id) %}
                   <a href="{{ url_for('edit_ticket', project_id=project.id, ticket_id=ticket.id) }}" title="Edit Ticket"><i class="fas fa-edit edit-button"></i></a>
                 {% endif %}
-                <p class="{{ status.lower() }}">Ticket Name: {{ ticket.name }}</p>
-                <p class="{{ status.lower() }}">Ticket Summary: {{ ticket.summary }}</p>
-                <div class="{{ status.lower() }}">Ticket Description: {{ ticket.description|safe }}</div>
+                <p class="{{ status.lower() }} ticket-name">{{ ticket.name }}</p>
+                <p class="{{ status.lower() }} ticket-summary">{{ ticket.summary }}</p>
+                <div class="{{ status.lower() }} ticket-desc">{{ ticket.description|safe }}</div>
               </div>
             {% endfor %}
           {% endfor %}
