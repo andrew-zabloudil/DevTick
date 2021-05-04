@@ -7,7 +7,7 @@
        <a href="{{ url_for('edit_project', project_id=project.id) }}" class="nav-button" title="Edit Project Information"><i class="fas fa-edit"></i></a>
       {% endif %}
       {% if is_editor(project.id) or is_admin(project.id) or is_creator(project.id) %}
-        <a href="{{ url_for('create_ticket', project_id=project.id) }}" class="nav-button" title="Create New Ticket"><i class="fas fa-plus-square"></i></a>
+        <a href="{{ url_for('create_ticket', project_id=project.id) }}" class="nav-button" title="Create New Ticket"><i class="fas fa-plus"></i></a>
       {% endif %}
       <a href="#user-list" class="nav-button" title="View Users"><i class="fas fa-users"></i></a>
       {% if is_admin(project.id) or is_creator(project.id) %}
@@ -19,8 +19,9 @@
       <p class="project-creator">Created by: <span>{{ project.creator.name }}</span></p>
       <p class="project-summary">{{ project.summary }}</p>
       <div class="project-desc">{{ project.description|safe }}</div>
+      <span id="user-list"></span>
       {% if project.invited_users %}
-        <ul id="user-list">
+        <ul class="user-list">
           <p>Project Members:</p>
           <li class="user-list-items">
             <span>{{ project.creator.name }}</span>
@@ -49,7 +50,7 @@
     {% else %}
       {% for category, tickets in project.tickets|groupby("category") %}
         <div class="{{ category.lower().replace(' ', '-') }} flex-container flex-col">
-          <span>{{ category.capitalize() }}</span>
+          <span class="category-heading">{{ category }}</span>
           {% for status, items in tickets|groupby("status")|reverse %}
             {% for ticket in items %}
               <div class="ticket">
