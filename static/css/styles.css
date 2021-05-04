@@ -149,7 +149,7 @@ nav:last-child {
 /* Project Pane */
 
 .project-pane {
-  width: 30%;
+  width: 25%;
   border-right-style: ridge;
   border-right-width: 0.5rem;
   overflow: auto;
@@ -210,7 +210,7 @@ nav:last-child {
 /* Ticket Pane */
 
 .ticket-pane {
-  width: 70%;
+  width: 75%;
   justify-content: space-evenly;
   overflow-y: scroll;
   flex-wrap: wrap;
