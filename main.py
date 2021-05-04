@@ -150,7 +150,6 @@ def login():
         else:
             if check_password_hash(user.password, form.password.data):
                 login_user(user)
-                flash('Logged in successfully.')
                 return redirect(url_for('home'))
             else:
                 flash('Incorrect Password')
