@@ -59,6 +59,12 @@ body {
   font-weight: bold;
 }
 
+#register {
+  background-color: #f26659;
+  color: #f9f7f7;
+  padding: 1.45rem;
+}
+
 nav:last-child {
   margin-right: 3rem;
 }
@@ -77,7 +83,7 @@ nav:last-child {
 .nav-link {
   text-decoration: none;
   color: #0f1626;
-  padding-left: 1rem;
+  padding: 0.5rem;
   font-size: 1rem;
   font-weight: bold;
 }
