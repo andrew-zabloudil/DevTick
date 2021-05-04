@@ -103,6 +103,7 @@ nav:last-child {
   justify-content: space-evenly;
   max-width: 20rem;
   width: auto;
+  padding: 0 1rem;
 }
 
 .project-list {
