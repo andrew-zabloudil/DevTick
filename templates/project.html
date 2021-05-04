@@ -1,7 +1,7 @@
 {% include "header.html" %}
 
-<div class="flex-container flex-row">
-  <div class="project-pane flex-container flex-col">
+<div class="flex-row">
+  <div class="project-pane flex-col">
     <nav id="sub-nav">
       {% if is_creator(project.id) %}
        <a href="{{ url_for('edit_project', project_id=project.id) }}" class="nav-button" title="Edit Project Information"><i class="fas fa-edit"></i></a>
@@ -44,12 +44,12 @@
       {% endif %}
     </div>
   </div>
-  <div class="ticket-pane flex-container flex-row">
+  <div class="ticket-pane flex-row">
     {% if not project.tickets %}
       <p>This project has no tickets yet. Get started now by clicking Create Ticket!</p>
     {% else %}
       {% for category, tickets in project.tickets|groupby("category") %}
-        <div class="{{ category.lower().replace(' ', '-') }} flex-container flex-col">
+        <div class="{{ category.lower().replace(' ', '-') }} flex-col">
           <span class="category-heading">{{ category }}</span>
           {% for status, items in tickets|groupby("status")|reverse %}
             {% for ticket in items %}

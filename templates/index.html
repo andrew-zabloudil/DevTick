@@ -1,21 +1,21 @@
 {% block content %}
 {% include "header.html" %}
 
-<div class="flex-container flex-col">
+<div class="flex-col">
     {% if current_user.is_authenticated %}
         {% if not current_user.created_projects %}
             <p>Hello, {{ current_user.name }}! You don't have any projects yet. Click Create Project to get started!</p>
         {% else %}
             <p class="greeting">Hello, {{ current_user.name }}! Select a project to work on.</p>
-            <div class="project-container flex-container flex-col">
-                <ul class="project-list flex-container flex-col">
+            <div class="project-container flex-col">
+                <ul class="project-list flex-col">
                     <p>Your Projects:</p>
                     {% for project in current_user.created_projects %}
                         <li><a href="{{ url_for('project', project_id=project.id) }}">{{ project.name }}</a></li>
                     {% endfor %}
                 </ul>
                 {% if current_user.invited_projects %}
-                    <ul class="project-list flex-container flex-col">
+                    <ul class="project-list flex-col">
                         <p>Invited Projects:</p>
                         {% for association in current_user.invited_projects %}
                             <li><a href="{{ url_for('project', project_id=association.project_id) }}">{{ association.project.name }}</a></li>
