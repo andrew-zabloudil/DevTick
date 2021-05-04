@@ -4,7 +4,7 @@
 {% block content %}
 {% include "header.html" %}
 
-<div>
+<div class="form">
     {{ ckeditor.load() }}
     {{ ckeditor.config(name='description') }}
     {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "primary"}) }}
