@@ -16,10 +16,9 @@
     <title>DevTick</title>
   </head>
   <body>
-    <!-- add nav bar here -->
     <div class="nav-container flex-container flex-row" id="navbar">
       <div class="logo-container">
-        <a href="https://andrew-zabloudil.me" class="logo">AZ</a>
+        <a href="{{ url_for('home') }}" class="logo"><i class="fas fa-bug"></i></a>
       </div>
       <nav>
         <a href="{{ url_for('home') }}" class="nav-link">Home</a>
