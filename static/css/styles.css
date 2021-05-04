@@ -55,7 +55,7 @@ body {
 }
 
 .logo {
-  color: #0f1626;
+  color: #000;
   text-decoration: none;
   font-size: 2rem;
   font-weight: bold;
@@ -73,6 +73,7 @@ nav:last-child {
   background-color: transparent;
   top: 4rem;
   margin: 0 auto;
+  padding-top: 1rem;
 }
 
 .nav-link {
@@ -100,7 +101,6 @@ nav:last-child {
   border-right-style: ridge;
   border-right-width: 0.5rem;
   overflow: auto;
-  padding-top: 1rem;
   height: calc(100vh - 4rem);
 }
 
@@ -134,13 +134,17 @@ nav:last-child {
   font-weight: normal;
 }
 
-#user-list {
+.user-list {
   list-style: none;
   border-width: 2px;
   border-style: solid;
   padding: 1rem;
   margin-top: 1rem;
   margin-bottom: 3rem;
+}
+
+#user-list {
+  visibility: hidden;
 }
 
 .user-list-items {
@@ -158,7 +162,6 @@ nav:last-child {
   justify-content: space-evenly;
   overflow-y: scroll;
   flex-wrap: wrap;
-  padding-top: 1rem;
   height: calc(100vh - 4rem);
 }
 
@@ -175,6 +178,14 @@ nav:last-child {
 .update {
   width: 33%;
   height: auto;
+  padding-top: 1rem;
+}
+
+.category-heading {
+  text-align: center;
+  font-size: 1.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
 .ticket {
