@@ -121,7 +121,22 @@ nav:last-child {
 
 .greeting {
   font-size: 2rem;
+  font-weight: bold;
   padding: 1rem 3rem;
+}
+
+.devtick-info {
+  padding: 1rem 3rem;
+  font-size: 1rem;
+}
+
+.devtick-info h2 {
+  font-size: 2rem;
+}
+
+.devtick-info p {
+  padding: 0 0 1rem 1rem;
+  max-width: 50rem;
 }
 
 .project-container {
