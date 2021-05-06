@@ -219,7 +219,7 @@ nav:last-child {
   margin: 1rem;
   align-items: center;
   display: grid;
-  grid-template-columns: auto 3.5rem 8rem;
+  grid-template-columns: auto 5rem 8rem;
 }
 
 /* Ticket Pane */
