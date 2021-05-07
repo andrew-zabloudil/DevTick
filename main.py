@@ -12,25 +12,32 @@ from dotenv import load_dotenv
 from datetime import datetime as dt
 from forms import CreateTicketForm, EditTicketForm, CreateProjectForm, LoginForm, RegisterForm, AddUserForm
 
-
+# Loads environment file
 load_dotenv()
+
+# Creates Flask app
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv("FLASK_SECRET_KEY")
 
+# Configures Bootstrap and CKEditor for the app.
 bootstrap = Bootstrap(app)
 ckeditor = CKEditor(app)
 
+# Creates Database
 uri = os.getenv("DATABASE_URL", "sqlite:///devtick.db")
+# Ensures uri begins with postgresql:// to match current standard
 if uri.startswith("postgres://"):
     uri = uri.replace("postgres://", "postgresql://", 1)
 app.config['SQLALCHEMY_DATABASE_URI'] = uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+# Creates login manager for the Flask app
 login_manager = LoginManager()
 login_manager.init_app(app)
 
 
+# Database model for tracking users associated with a project
 class AssociatedUser(db.Model):
     __tablename__ = 'associated_users'
     user_id = db.Column(db.Integer, db.ForeignKey(
@@ -42,6 +49,7 @@ class AssociatedUser(db.Model):
     project = relationship("Project", back_populates="invited_users")
 
 
+# Database model for users
 class User(UserMixin, db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
@@ -53,6 +61,7 @@ class User(UserMixin, db.Model):
     invited_projects = relationship("AssociatedUser", back_populates="user")
 
 
+# Database model for projects
 class Project(db.Model):
     __tablename__ = "projects"
     id = db.Column(db.Integer, primary_key=True)
@@ -66,6 +75,7 @@ class Project(db.Model):
     invited_users = relationship("AssociatedUser", back_populates="project")
 
 
+# Database model for tickets
 class Ticket(db.Model):
     __tablename__ = "tickets"
     id = db.Column(db.Integer, primary_key=True)
@@ -81,9 +91,11 @@ class Ticket(db.Model):
     creator = relationship("User", back_populates="created_tickets")
 
 
+# Creates all database tables
 db.create_all()
 
 
+# Helper functions to confirm a user's role for permissions
 def is_creator(project_id):
     project = Project.query.get(project_id)
     return current_user.id == project.creator_id
@@ -110,17 +122,20 @@ def is_viewer(project_id):
         return association.user_role == "Viewer"
 
 
+# Sets jinja globals for the user permission helper functions so they can be called from templates
 app.jinja_env.globals.update(is_creator=is_creator)
 app.jinja_env.globals.update(is_admin=is_admin)
 app.jinja_env.globals.update(is_editor=is_editor)
 app.jinja_env.globals.update(is_viewer=is_viewer)
 
 
+# Loads user from database to the login manager
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
 
+# Decorator which checks if a user is associated with a project
 def associated_user(f):
     @wraps(f)
     def decorated_function(project_id, *args, **kwargs):
@@ -135,6 +150,7 @@ def associated_user(f):
     return decorated_function
 
 
+# Decorator which limits access to only users with Creator or Admin roles
 def admin_only(f):
     @wraps(f)
     def decorated_function(project_id, *args, **kwargs):
@@ -144,11 +160,13 @@ def admin_only(f):
     return decorated_function
 
 
+# Route for the home page
 @app.route('/')
 def home():
     return render_template('index.html')
 
 
+# Route for the login page
 @app.route('/login', methods=["GET", "POST"])
 def login():
     form = LoginForm()
@@ -165,12 +183,14 @@ def login():
     return render_template('login.html', form=form)
 
 
+# Route for logging out a user
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('home'))
 
 
+# Route for registering a new user
 @app.route('/register', methods=["GET", "POST"])
 def register():
     form = RegisterForm()
@@ -193,6 +213,7 @@ def register():
     return render_template('register.html', form=form)
 
 
+# Route for creating a new project
 @app.route('/create-project', methods=["GET", "POST"])
 @login_required
 def create_project():
@@ -211,6 +232,7 @@ def create_project():
     return render_template('create_project.html', form=form)
 
 
+# Route for editing a project's information
 @app.route('/project/<int:project_id>/edit-project/', methods=["GET", "POST"])
 @login_required
 @associated_user
@@ -230,6 +252,7 @@ def edit_project(project_id):
     return render_template("create_project.html", form=form)
 
 
+# Route for creating a new ticket on a project
 @app.route('/project/<int:project_id>/create-ticket', methods=["GET", "POST"])
 @login_required
 @associated_user
@@ -252,6 +275,7 @@ def create_ticket(project_id):
     return render_template('create_ticket.html', form=form)
 
 
+# Route for editing the fields on a ticket
 @app.route('/project/<int:project_id>/edit-ticket/<int:ticket_id>', methods=["GET", "POST"])
 @login_required
 @associated_user
@@ -275,6 +299,7 @@ def edit_ticket(project_id, ticket_id):
     return render_template("create_ticket.html", form=form)
 
 
+# Route for displaying a project
 @app.route('/project/<int:project_id>', methods=["GET", "POST"])
 @associated_user
 def project(project_id):
@@ -282,6 +307,7 @@ def project(project_id):
     return render_template('project.html', project=project)
 
 
+# Route for adding a new user to a project
 @app.route('/project/<int:project_id>/add-user', methods=["GET", "POST"])
 @login_required
 @associated_user
@@ -302,6 +328,7 @@ def add_user(project_id):
     return render_template('add_user.html', form=form)
 
 
+# Route for removing a user from a project
 @app.route('/project/<int:project_id>/remove-user/<int:user_id>')
 @login_required
 @associated_user
@@ -315,6 +342,7 @@ def remove_user(project_id, user_id):
     return redirect(url_for('project', project_id=project_id))
 
 
+# Route for editing a user's role on a project
 @app.route('/project/<int:project_id>/edit-user/<int:user_id>', methods=["POST"])
 @login_required
 @associated_user
@@ -330,5 +358,6 @@ def edit_user(project_id, user_id):
     return redirect(url_for('project', project_id=project_id))
 
 
+# Runs the app
 if __name__ == "__main__":
     app.run(debug=True)
