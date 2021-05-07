@@ -1,4 +1,11 @@
-/* General Styles */
+/* || Variables */
+
+:root {
+  --main-bg-color: #f9f7f7;
+  --button-color: #0077b5;
+}
+
+/* || General Styles */
 
 * {
   margin: 0;
@@ -18,14 +25,10 @@ html {
 
 body {
   overflow: hidden;
-  background-color: #f9f7f7;
+  background-color: var(--main-bg-color);
 }
 
-.form {
-  padding: 0.75rem 1.5rem;
-}
-
-/* Flexbox Helper Classes */
+/* || Flexbox Helper Classes */
 
 .flex-row {
   display: flex;
@@ -37,17 +40,21 @@ body {
   flex-direction: column;
 }
 
-/* General Helper Classes */
+/* || Utilities */
 
 .warning {
   color: red !important;
 }
 
 .warning:hover {
-  background-color: #f9f7f7 !important;
+  background-color: var(--main-bg-color) !important;
 }
 
-/* Navigation */
+.form {
+  padding: 0.75rem 1.5rem;
+}
+
+/* || Navigation */
 
 #navbar {
   height: 4rem;
@@ -61,25 +68,10 @@ body {
   box-shadow: 0 0.125rem 1rem rgba(0, 0, 0, 0.2);
 }
 
-.logo-container {
-  margin-left: 3rem;
-}
-
-.logo {
-  color: #000;
-  text-decoration: none;
-  font-size: 2rem;
-  font-weight: bold;
-}
-
 #register {
-  background-color: #0077b5;
-  color: #f9f7f7;
+  background-color: var(--button-color);
+  color: var(--main-bg-color);
   padding: 1.45rem;
-}
-
-nav:last-child {
-  margin-right: 3rem;
 }
 
 #sub-nav {
@@ -93,6 +85,21 @@ nav:last-child {
   padding-top: 1rem;
 }
 
+nav:last-child {
+  margin-right: 3rem;
+}
+
+.logo-container {
+  margin-left: 3rem;
+}
+
+.logo {
+  color: #000;
+  text-decoration: none;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
 .nav-link {
   text-decoration: none;
   color: #0f1626;
@@ -103,13 +110,13 @@ nav:last-child {
 
 .nav-button {
   text-decoration: none;
-  color: #0077b5;
+  color: var(--button-color);
   border-style: solid;
   border-radius: 0.5rem;
   border-width: 2px;
   padding: 0.25rem 0.5rem;
   margin: 0.25rem;
-  background-color: #f9f7f7;
+  background-color: var(--main-bg-color);
   transition: background-color 0.5s ease-in-out;
 }
 
@@ -117,7 +124,7 @@ nav:last-child {
   background-color: rgba(101, 134, 151, 0.1);
 }
 
-/* Home Page */
+/* || Home Page */
 
 .greeting {
   font-size: 2rem;
@@ -151,7 +158,7 @@ nav:last-child {
   width: auto;
   padding: 1rem;
   margin: 1rem 0;
-  background-color: #f9f7f7;
+  background-color: var(--main-bg-color);
   color: #0f1626;
   box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.2),
     0 0.25rem 0.75rem rgba(0, 0, 0, 0.15);
@@ -161,7 +168,7 @@ nav:last-child {
   padding: 0.75rem;
 }
 
-/* Project Pane */
+/* || Project Pane */
 
 .project-pane {
   width: 25%;
@@ -210,10 +217,6 @@ nav:last-child {
   margin-bottom: 3rem;
 }
 
-#user-list {
-  visibility: hidden;
-}
-
 .user-list-items {
   text-decoration: none;
   margin: 1rem;
@@ -222,7 +225,11 @@ nav:last-child {
   grid-template-columns: auto 5rem 8rem;
 }
 
-/* Ticket Pane */
+#user-list {
+  visibility: hidden;
+}
+
+/* || Ticket Pane */
 
 .ticket-pane {
   width: 75%;
@@ -258,8 +265,7 @@ nav:last-child {
 .ticket {
   padding: 1rem;
   margin: 0.5rem;
-  background-color: #f9f7f7;
-  color: #0f1626;
+  background-color: var(--main-bg-color);
   box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.2),
     0 0.25rem 0.75rem rgba(0, 0, 0, 0.15);
 }
