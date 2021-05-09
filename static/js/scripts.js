@@ -22,6 +22,7 @@ function openProjectPane() {
   project_pane.style.width = "100%";
   ticket_pane.style.width = "0";
   ticket_pane.style.paddingRight = "0";
+  project_pane.style.paddingRight = "3rem";
   project_info.onclick = function() { closeProjectPane() };
   for (let i = 0; i < mobile_nav_buttons.length; i++) {
     mobile_nav_buttons[i].style.display = "block";
@@ -34,6 +35,7 @@ function closeProjectPane() {
   project_pane.style.width = "0";
   ticket_pane.style.width = "100%";
   ticket_pane.style.paddingRight = "3rem";
+  project_pane.style.paddingRight = "0";
   project_info.onclick = function() { openProjectPane() };
   for (let i = 1; i < mobile_nav_buttons.length; i++) {
     mobile_nav_buttons[i].style.display = "none";
