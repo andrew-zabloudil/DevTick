@@ -20,7 +20,7 @@
       <div class="logo-container">
         <a href="{{ url_for('home') }}" class="logo"><i class="fas fa-bug"></i></a>
       </div>
-      <nav>
+      <nav class="desktop">
         <a href="{{ url_for('home') }}" class="nav-link">Home</a>
         {% if current_user.is_authenticated %}
         <a href="{{ url_for('create_project') }}" class="nav-link">Create Project</a>
@@ -30,7 +30,25 @@
         <a href="{{ url_for('register') }}" class="nav-link" id="register">Register</a>
         {% endif %}
       </nav>
+      <nav class="mobile">
+        <div id="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </nav>
     </div>
-
+    <div class="overlay">
+      <div class="mobile-nav">
+        <a href="{{ url_for('home') }}" class="mobile-nav-link">Home</a>
+        {% if current_user.is_authenticated %}
+        <a href="{{ url_for('create_project') }}" class="mobile-nav-link">Create Project</a>
+        <a href="{{ url_for('logout') }}" class="mobile-nav-link">Logout</a>
+        {% else %}
+        <a href="{{ url_for('login') }}" class="mobile-nav-link">Login</a>
+        <a href="{{ url_for('register') }}" class="mobile-nav-link" id="register">Register</a>
+        {% endif %}
+      </div>
+    </div>
   </body>
 </html>
