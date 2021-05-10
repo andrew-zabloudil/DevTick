@@ -89,13 +89,18 @@ body {
 
 .logo-container {
   margin-left: 3rem;
+  height: 4rem;
 }
 
 .logo {
-  color: #000;
-  text-decoration: none;
-  font-size: 2rem;
-  font-weight: bold;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.logo img {
+  height: 75%;
+  margin-top: 18%;
+  margin-bottom: 7%;
 }
 
 .nav-link {
@@ -396,7 +401,7 @@ body {
 
   .mobile-project-pane {
     width: 3rem;
-    margin-left: 2.5rem;
+    margin-left: 3rem;
   }
 }
 
@@ -423,6 +428,11 @@ body {
 
   .desktop {
     display: block;
+  }
+
+  .nav-container nav::after {
+    content: "";
+    margin-right: 2.5rem;
   }
 
   .sub-nav {
