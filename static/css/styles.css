@@ -42,11 +42,7 @@ body {
 /* || Utilities */
 
 .warning {
-  color: red !important;
-}
-
-.warning:hover {
-  background-color: var(--main-bg-color) !important;
+  background-color: #b4000c !important;
 }
 
 .form {
@@ -282,7 +278,7 @@ body {
   list-style: none;
   border-width: 2px;
   border-style: solid;
-  padding: 1rem;
+  padding: 0.5rem;
   margin-top: 1rem;
   margin-bottom: 3rem;
 }
@@ -292,19 +288,18 @@ body {
   margin: 1rem;
   align-items: center;
   display: grid;
-  grid-template-columns: auto 5rem 5rem;
+  grid-template-columns: auto 4.5rem 4rem;
 }
 
 .remove-button {
   text-decoration: none;
   text-align: center;
+  font-size: 0.75rem;
   width: 4rem;
-  border-style: solid;
   border-radius: 0.5rem;
-  border-width: 2px;
-  padding: 0.5rem 0.5rem;
+  padding: 0.25rem 0.25rem;
   margin: 0.5rem;
-  background-color: var(--main-bg-color);
+  color: var(--main-bg-color);
 }
 
 #user-list {
