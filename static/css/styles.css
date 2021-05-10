@@ -448,6 +448,10 @@ body {
     height: calc(100vh - 4rem);
   }
 
+  .user-list {
+    padding: 1rem;
+  }
+
   .mobile-project-pane {
     display: none;
   }
