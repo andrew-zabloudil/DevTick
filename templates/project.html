@@ -71,18 +71,54 @@
     {% if not project.tickets %}
       <p>This project has no tickets yet. Get started now by clicking Create Ticket!</p>
     {% else %}
+      <div class="filter-container">
+        <form id="filter-category">
+          <label for="filter-category" class="filter-label">Filter Tickets By Category</label><br>
+          <div class="checkbox-container">
+            {% for category, _ in project.tickets|groupby("category") %}
+                <label for="{{ category }}" class="{{ category }} category" >
+                  <input type="checkbox"
+                         id="{{ category }}"
+                         name="{{ category }}"
+                         value="{{ category }}"
+                         class="checkbox"
+                         onchange="filterTickets(this)"
+                         checked>
+                  {{ category }}
+                </label>
+            {% endfor %}
+          </div>
+        </form>
+        <form id="filter-status">
+          <label for="filter-status" class="filter-label">Filter Tickets By Status</label><br>
+          <div class="checkbox-container">
+            {% for status, _ in project.tickets|groupby("status")|reverse %}
+                <label for="{{ status }}" class="status">
+                  <input type="checkbox"
+                         id="{{ status }}"
+                         name="{{ status }}"
+                         value="{{ status }}"
+                         class="checkbox"
+                         onchange="filterTickets(this)"
+                         checked>
+                  {{ status }}
+                </label>
+            {% endfor %}
+          </div>
+        </form>
+      </div>
       {% for category, tickets in project.tickets|groupby("category") %}
         <div class="{{ category.lower().replace(' ', '-') }} flex-col">
           <span class="category-heading">{{ category }}</span>
           {% for status, items in tickets|groupby("status")|reverse %}
             {% for ticket in items %}
-              <div class="ticket">
+              <div class="ticket {{ category.lower() }}-ticket {{ status.lower() }}-ticket">
                 {% if not is_viewer(project.id) %}
                   <a href="{{ url_for('edit_ticket', project_id=project.id, ticket_id=ticket.id) }}" title="Edit Ticket"><i class="fas fa-edit edit-button"></i></a>
                 {% endif %}
-                <p class="{{ status.lower() }} ticket-name">{{ ticket.name }}</p>
-                <p class="{{ status.lower() }} ticket-summary">{{ ticket.summary }}</p>
-                <div class="{{ status.lower() }} ticket-desc">{{ ticket.description|safe }}</div>
+                <p class="ticket-name">{{ ticket.name }}</p>
+                <p class="ticket-summary">{{ ticket.summary }}</p>
+                <div class="ticket-desc">{{ ticket.description|safe }}</div>
               </div>
             {% endfor %}
           {% endfor %}

@@ -43,3 +43,18 @@ function closeProjectPane() {
   mobile_nav_buttons[0].firstChild.classList.remove("fa-times")
   mobile_nav_buttons[0].firstChild.classList.add("fa-bars")
 }
+
+function filterTickets(checkbox) {
+  var filterTarget = `${checkbox.value.toLowerCase()}-ticket`;
+  var tickets = document.getElementsByClassName(filterTarget);
+
+  if (checkbox.checked == false) {
+    for (let i = 0; i < tickets.length; i++) {
+      tickets[i].style.display = "none";
+    };
+  } else {
+    for (let i = 0; i < tickets.length; i++) {
+      tickets[i].style.display = "block";
+    };
+  };
+};

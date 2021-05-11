@@ -313,6 +313,7 @@ body {
   overflow-y: scroll;
   height: calc(100vh - 4rem);
   padding-right: 3rem;
+  align-content: flex-start;
 }
 
 .ticket-pane::after {
@@ -321,6 +322,37 @@ body {
   flex-basis: 100%;
   height: 3rem;
   width: 100%;
+}
+
+.filter-container {
+  width: calc(100% - 3rem);
+  height: 11rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  margin: 0.5rem;
+  margin-right: 3rem;
+  border-width: 2px;
+  border-style: solid;
+  padding: 1rem;
+}
+
+.filter-label {
+  font-weight: bold;
+}
+
+.checkbox-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.category,
+.status {
+  padding: 0.5rem;
 }
 
 .bug,
@@ -359,12 +391,12 @@ body {
   font-size: 0.9rem;
 }
 
-.open {
+.open-ticket {
   text-decoration: none;
   margin-bottom: 0.75rem;
 }
 
-.closed {
+.closed-ticket {
   text-decoration: line-through;
   margin-bottom: 0.75rem;
 }
@@ -462,5 +494,10 @@ body {
     flex-wrap: wrap;
     justify-content: space-evenly;
     padding-left: 3rem;
+  }
+
+  .filter-container {
+    margin: 0.5rem;
+    margin-right: 0;
   }
 }
