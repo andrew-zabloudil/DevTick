@@ -26,9 +26,17 @@ ckeditor = CKEditor(app)
 
 # Configures website security through Talisman extension.
 csp = {
-    'default-src': '\'self\'',
+    'default-src': [
+        '\'self\'',
+        "'unsafe-inline'",
+        '*.fontawesome.com',
+        'cdn.ckeditor.com',
+        'cdnjs.cloudflare.com'
+    ],
     'script-src': [
-        'kit.fontawesome.com',
+        '\'self\'',
+        "'unsafe-inline'",
+        '*.fontawesome.com',
         'cdn.ckeditor.com',
         'cdnjs.cloudflare.com'
     ]
