@@ -16,7 +16,9 @@ var ticket_pane = document.getElementsByClassName("ticket-pane")[0];
 var project_info = document.getElementById("project-info");
 
 var mobile_project_nav = document.getElementById("mobile-project-nav");
-var mobile_nav_buttons = mobile_project_nav.children;
+if (mobile_project_nav) {
+  var mobile_nav_buttons = mobile_project_nav.children;
+}
 
 function openProjectPane() {
   project_pane.style.width = "100%";
