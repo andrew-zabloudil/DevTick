@@ -47,16 +47,31 @@ function closeProjectPane() {
 }
 
 function filterTickets(checkbox) {
-  var filterTarget = `${checkbox.value.toLowerCase()}-ticket`;
-  var tickets = document.getElementsByClassName(filterTarget);
+  if (checkbox.value.toLowerCase() != "open" && checkbox.value.toLowerCase() != "closed") {
+    var toFilter = `${checkbox.value.toLowerCase().replace(' ', '-')}-ticket-container`;
+    var filterTargets = document.getElementsByClassName(toFilter);
 
-  if (checkbox.checked == false) {
-    for (let i = 0; i < tickets.length; i++) {
-      tickets[i].style.display = "none";
+    if (checkbox.checked == false) {
+      for (let i = 0; i < filterTargets.length; i++) {
+        filterTargets[i].style.display = "none";
+      };
+    } else {
+      for (let i = 0; i < filterTargets.length; i++) {
+        filterTargets[i].style.display = "flex";
+      };
     };
   } else {
-    for (let i = 0; i < tickets.length; i++) {
-      tickets[i].style.display = "block";
+    var toFilter = `${checkbox.value.toLowerCase().replace(' ', '-')}-ticket`;
+    var filterTargets = document.getElementsByClassName(toFilter);
+
+    if (checkbox.checked == false) {
+      for (let i = 0; i < filterTargets.length; i++) {
+        filterTargets[i].style.display = "none";
+      };
+    } else {
+      for (let i = 0; i < filterTargets.length; i++) {
+        filterTargets[i].style.display = "block";
+      };
     };
-  };
+  }
 };
