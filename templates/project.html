@@ -47,7 +47,6 @@
               <li class="user-list-items">
                 <span>{{ user.user.name }}</span>
                 {% if is_creator(project.id) or is_admin(project.id) %}
-                  <!-- <a href="{{ url_for('edit_user', project_id=project.id, user_id=user.user_id) }}">{{ user.user_role }}</a> -->
                   <form method="post" action="{{ url_for('edit_user', project_id=project.id, user_id=user.user.id) }}">
                     <select onchange="this.form.submit()" name="edit-role">
                       <option value="{{ user.user_role }}">{{ user.user_role }}</option>
@@ -108,11 +107,11 @@
         </form>
       </div>
       {% for category, tickets in project.tickets|groupby("category") %}
-        <div class="{{ category.lower().replace(' ', '-') }} flex-col">
+        <div class="{{ category.lower().replace(' ', '-') }}-ticket-container ticket-container flex-col">
           <span class="category-heading">{{ category }}</span>
           {% for status, items in tickets|groupby("status")|reverse %}
             {% for ticket in items %}
-              <div class="ticket {{ category.lower() }}-ticket {{ status.lower() }}-ticket">
+              <div class="ticket {{ category.lower().replace(' ', '-') }}-ticket {{ status.lower() }}-ticket">
                 {% if not is_viewer(project.id) %}
                   <a href="{{ url_for('edit_ticket', project_id=project.id, ticket_id=ticket.id) }}" title="Edit Ticket"><i class="fas fa-edit edit-button"></i></a>
                 {% endif %}
