@@ -23,7 +23,17 @@ app.config['SECRET_KEY'] = os.getenv("FLASK_SECRET_KEY")
 # Configures Bootstrap and CKEditor for the app.
 bootstrap = Bootstrap(app)
 ckeditor = CKEditor(app)
-talisman = Talisman(app)
+
+# Configures website security through Talisman extension.
+csp = {
+    'default-src': '\'self\'',
+    'script-src': [
+        'kit.fontawesome.com',
+        'cdn.ckeditor.com',
+        'cdnjs.cloudflare.com'
+    ]
+}
+talisman = Talisman(app, content_security_policy=csp)
 
 # Creates Database
 uri = os.getenv("DATABASE_URL", "sqlite:///devtick.db")
