@@ -355,9 +355,7 @@ body {
   padding: 0.5rem;
 }
 
-.bug,
-.planned-feature,
-.update {
+.ticket-container {
   width: 100%;
   height: auto;
   padding-top: 1rem;
@@ -418,9 +416,7 @@ body {
 
 /* Tablet-Portrait */
 @media (min-width: 768px) {
-  .bug,
-  .planned-feature,
-  .update {
+  .ticket-container {
     width: 80%;
     margin-left: auto;
     margin-right: auto;
@@ -440,9 +436,7 @@ body {
     justify-content: space-evenly;
   }
 
-  .bug,
-  .planned-feature,
-  .update {
+  .ticket-container {
     width: 33%;
   }
 }
