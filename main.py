@@ -360,4 +360,4 @@ def edit_user(project_id, user_id):
 
 # Runs the app
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
