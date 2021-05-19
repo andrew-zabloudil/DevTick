@@ -123,7 +123,10 @@ db.create_all()
 class AdminIndexView(AdminIndexView):
     # Creates Admin model views
     def is_accessible(self):
-        return current_user.id == 1
+        if current_user:
+            return current_user.id == 1
+        else:
+            return False
 
     # Redirects user to login page
     def inaccessible_callback(self, name, **kwargs):
@@ -138,7 +141,10 @@ class DevTickModelView(ModelView):
     # Makes the admin view only accessible by the user with id of 0
 
     def is_accessible(self):
-        return current_user.id == 1
+        if current_user:
+            return current_user.id == 1
+        else:
+            return False
 
     # Redirects user to login page
     def inaccessible_callback(self, name, **kwargs):
