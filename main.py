@@ -123,7 +123,7 @@ db.create_all()
 class AdminIndexView(AdminIndexView):
     # Creates Admin model views
     def is_accessible(self):
-        if current_user:
+        if current_user.is_authenticated:
             return current_user.id == 1
         else:
             return False
@@ -141,7 +141,7 @@ class DevTickModelView(ModelView):
     # Makes the admin view only accessible by the user with id of 0
 
     def is_accessible(self):
-        if current_user:
+        if current_user.is_authenticated:
             return current_user.id == 1
         else:
             return False
