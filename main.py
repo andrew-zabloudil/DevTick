@@ -1,17 +1,22 @@
 from flask import Flask, render_template, redirect, url_for, flash, abort, request
-from flask_talisman import Talisman
+from flask_admin import Admin, AdminIndexView
+from flask_admin.contrib.sqla import ModelView
 from flask_bootstrap import Bootstrap
 from flask_ckeditor import CKEditor
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 from flask_sqlalchemy import SQLAlchemy
+from flask_talisman import Talisman
+
 from sqlalchemy.orm import relationship
+from forms import CreateTicketForm, EditTicketForm, CreateProjectForm, LoginForm, RegisterForm, AddUserForm
 from werkzeug.security import generate_password_hash, check_password_hash
+
 import os
 import re
 from functools import wraps
 from dotenv import load_dotenv
 from datetime import datetime as dt
-from forms import CreateTicketForm, EditTicketForm, CreateProjectForm, LoginForm, RegisterForm, AddUserForm
+
 
 # Loads environment file
 load_dotenv()
@@ -115,7 +120,34 @@ class Ticket(db.Model):
 db.create_all()
 
 
+class AdminIndexView(AdminIndexView):
+    # Creates Admin model views
+    def is_accessible(self):
+        return current_user.id == 1
+
+
+class DevTickModelView(ModelView):
+
+    column_exclude_list = ('password')
+    column_display_pk = True
+    # Makes the admin view only accessible by the user with id of 0
+
+    def is_accessible(self):
+        return current_user.id == 1
+
+    def inaccessible_callback(self, name, **kwargs):
+        if not self.is_accessible():
+            return redirect(url_for('login', next=request.url))
+
+
+admin = Admin(app, name='DevTickAdmin', index_view=AdminIndexView())
+admin.add_view(DevTickModelView(User, db.session))
+admin.add_view(DevTickModelView(Project, db.session))
+admin.add_view(DevTickModelView(AssociatedUser, db.session))
+admin.add_view(DevTickModelView(Ticket, db.session))
 # Helper functions to confirm a user's role for permissions
+
+
 def is_creator(project_id):
     project = Project.query.get(project_id)
     return current_user.id == project.creator_id
