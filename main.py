@@ -125,6 +125,11 @@ class AdminIndexView(AdminIndexView):
     def is_accessible(self):
         return current_user.id == 1
 
+    # Redirects user to login page
+    def inaccessible_callback(self, name, **kwargs):
+        if not self.is_accessible():
+            return redirect(url_for('login', next=request.url))
+
 
 class DevTickModelView(ModelView):
 
@@ -135,6 +140,7 @@ class DevTickModelView(ModelView):
     def is_accessible(self):
         return current_user.id == 1
 
+    # Redirects user to login page
     def inaccessible_callback(self, name, **kwargs):
         if not self.is_accessible():
             return redirect(url_for('login', next=request.url))
