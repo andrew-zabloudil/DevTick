@@ -91,10 +91,11 @@ def is_viewer(project_id):
         return association.user_role == "Viewer"
 
 
-# Main Function
-def create_app():
+app = Flask(__name__)
+
+
+def configure_app():
     # Creates Flask app
-    app = Flask(__name__)
     app.config['SECRET_KEY'] = os.getenv("FLASK_SECRET_KEY")
 
     app.register_blueprint(general_blueprint)
@@ -135,4 +136,4 @@ def create_app():
 
 # Runs the app
 if __name__ == "__main__":
-    create_app()
+    configure_app()
