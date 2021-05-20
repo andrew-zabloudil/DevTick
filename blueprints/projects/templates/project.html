@@ -5,28 +5,28 @@
     <nav class="sub-nav flex-col" id="mobile-project-nav">
       <a href = "#" onclick="openProjectPane()" id="project-info" class="nav-button" title="View Project Information"><i class="fas fa-bars"></i></a>
       {% if is_creator(project.id) %}
-       <a href="{{ url_for('edit_project', project_id=project.id) }}" class="nav-button" title="Edit Project Information"><i class="fas fa-edit"></i></a>
+       <a href="{{ url_for('projects.edit_project', project_id=project.id) }}" class="nav-button" title="Edit Project Information"><i class="fas fa-edit"></i></a>
       {% endif %}
       {% if is_editor(project.id) or is_admin(project.id) or is_creator(project.id) %}
-        <a href="{{ url_for('create_ticket', project_id=project.id) }}" class="nav-button" title="Create New Ticket"><i class="fas fa-plus"></i></a>
+        <a href="{{ url_for('projects.create_ticket', project_id=project.id) }}" class="nav-button" title="Create New Ticket"><i class="fas fa-plus"></i></a>
       {% endif %}
       <a href="#user-list" class="nav-button" title="View Users"><i class="fas fa-users"></i></a>
       {% if is_admin(project.id) or is_creator(project.id) %}
-        <a href="{{ url_for('add_user', project_id=project.id) }}" class="nav-button" title="Add User"><i class="fas fa-user-plus"></i></a>
+        <a href="{{ url_for('projects.add_user', project_id=project.id) }}" class="nav-button" title="Add User"><i class="fas fa-user-plus"></i></a>
       {% endif %}
     </nav>
   </div>
   <div class="project-pane flex-col">
     <nav class="sub-nav desktop">
       {% if is_creator(project.id) %}
-       <a href="{{ url_for('edit_project', project_id=project.id) }}" class="nav-button" title="Edit Project Information"><i class="fas fa-edit"></i></a>
+       <a href="{{ url_for('projects.edit_project', project_id=project.id) }}" class="nav-button" title="Edit Project Information"><i class="fas fa-edit"></i></a>
       {% endif %}
       {% if is_editor(project.id) or is_admin(project.id) or is_creator(project.id) %}
-        <a href="{{ url_for('create_ticket', project_id=project.id) }}" class="nav-button" title="Create New Ticket"><i class="fas fa-plus"></i></a>
+        <a href="{{ url_for('projects.create_ticket', project_id=project.id) }}" class="nav-button" title="Create New Ticket"><i class="fas fa-plus"></i></a>
       {% endif %}
       <a href="#user-list" class="nav-button" title="View Users"><i class="fas fa-users"></i></a>
       {% if is_admin(project.id) or is_creator(project.id) %}
-        <a href="{{ url_for('add_user', project_id=project.id) }}" class="nav-button" title="Add User"><i class="fas fa-user-plus"></i></a>
+        <a href="{{ url_for('projects.add_user', project_id=project.id) }}" class="nav-button" title="Add User"><i class="fas fa-user-plus"></i></a>
       {% endif %}
     </nav>
     <div class="project">
@@ -47,7 +47,7 @@
               <li class="user-list-items">
                 <span>{{ user.user.name }}</span>
                 {% if is_creator(project.id) or is_admin(project.id) %}
-                  <form method="post" action="{{ url_for('edit_user', project_id=project.id, user_id=user.user.id) }}">
+                  <form method="post" action="{{ url_for('projects.edit_user', project_id=project.id, user_id=user.user.id) }}">
                     <select onchange="this.form.submit()" name="edit-role">
                       <option value="{{ user.user_role }}">{{ user.user_role }}</option>
                       <option value="Viewer">Viewer</option>
@@ -55,7 +55,7 @@
                       <option value="Admin">Admin</option>
                     </select>
                   </form>
-                  <a href="{{ url_for('remove_user', project_id=project.id, user_id=user.user_id) }}" class="remove-button warning">Remove User</a>
+                  <a href="{{ url_for('projects.remove_user', project_id=project.id, user_id=user.user_id) }}" class="remove-button warning">Remove User</a>
                 {% else %}
                   <span>{{ user.user_role }}</span>
                 {% endif %}
@@ -113,7 +113,7 @@
             {% for ticket in items %}
               <div class="ticket {{ category.lower().replace(' ', '-') }}-ticket {{ status.lower() }}-ticket">
                 {% if not is_viewer(project.id) %}
-                  <a href="{{ url_for('edit_ticket', project_id=project.id, ticket_id=ticket.id) }}" title="Edit Ticket"><i class="fas fa-edit edit-button"></i></a>
+                  <a href="{{ url_for('projects.edit_ticket', project_id=project.id, ticket_id=ticket.id) }}" title="Edit Ticket"><i class="fas fa-edit edit-button"></i></a>
                 {% endif %}
                 <p class="ticket-name">{{ ticket.name }}</p>
                 <p class="ticket-summary">{{ ticket.summary }}</p>

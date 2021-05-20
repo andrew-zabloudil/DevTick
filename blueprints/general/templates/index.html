@@ -11,14 +11,14 @@
                 <ul class="project-list flex-col">
                     <p>Your Projects:</p>
                     {% for project in current_user.created_projects %}
-                        <li><a href="{{ url_for('project', project_id=project.id) }}">{{ project.name }}</a></li>
+                        <li><a href="{{ url_for('projects.project', project_id=project.id) }}">{{ project.name }}</a></li>
                     {% endfor %}
                 </ul>
                 {% if current_user.invited_projects %}
                     <ul class="project-list flex-col">
                         <p>Invited Projects:</p>
                         {% for association in current_user.invited_projects %}
-                            <li><a href="{{ url_for('project', project_id=association.project_id) }}">{{ association.project.name }}</a></li>
+                            <li><a href="{{ url_for('projects.project', project_id=association.project_id) }}">{{ association.project.name }}</a></li>
                         {% endfor %}
                     </ul>
                 {% endif %}
