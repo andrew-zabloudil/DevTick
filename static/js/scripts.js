@@ -1,3 +1,4 @@
+/* Allows mobile hamburger menu to open/close when clicked. */
 var hamburger = document.getElementById("hamburger");
 var overlay = document.getElementsByClassName("overlay")[0];
 
@@ -11,14 +12,17 @@ hamburger.addEventListener("click", function () {
   }
 });
 
+
+/* Opens/closes the mobile project pane on smaller screens. */
 var project_pane = document.getElementsByClassName("project-pane")[0];
 var ticket_pane = document.getElementsByClassName("ticket-pane")[0];
 var project_info = document.getElementById("project-info");
-
 var mobile_project_nav = document.getElementById("mobile-project-nav");
 if (mobile_project_nav) {
   var mobile_nav_buttons = mobile_project_nav.children;
 }
+
+project_info.onclick = function() { openProjectPane() };
 
 function openProjectPane() {
   project_pane.style.width = "100%";
@@ -44,6 +48,13 @@ function closeProjectPane() {
   }
   mobile_nav_buttons[0].firstChild.classList.remove("fa-times")
   mobile_nav_buttons[0].firstChild.classList.add("fa-bars")
+}
+
+
+/* Dynamically changes the tickets that are displayed by using checkboxes to filter them. */
+var checkboxes = document.getElementsByClassName("checkbox");
+for (let i = 0; i < checkboxes.length; i++) {
+  checkboxes[i].onchange = function() {filterTickets(checkboxes[i])}
 }
 
 function filterTickets(checkbox) {
@@ -75,3 +86,23 @@ function filterTickets(checkbox) {
     };
   }
 };
+
+
+/* Allows the filter menu to be expanded/collapsed by the user. */
+var filterDropdown = document.getElementsByClassName("filter-dropdown")[0];
+filterDropdown.addEventListener("click", function() {
+  var dropdownArrow = document.getElementsByClassName("dropdown-arrow")[0];
+  var filterContainer = document.getElementsByClassName("filter-container")[0];
+
+  if (filterDropdown.classList.contains("hidden")) {
+    filterDropdown.classList.remove("hidden")
+    dropdownArrow.classList.remove("fa-caret-down");
+    dropdownArrow.classList.add("fa-caret-up");
+    filterContainer.style.display = "flex";
+  } else {
+    filterDropdown.classList.add("hidden")
+    dropdownArrow.classList.remove("fa-caret-up");
+    dropdownArrow.classList.add("fa-caret-down");
+    filterContainer.style.display = "none";
+  }
+});

@@ -3,7 +3,7 @@
 <div class="flex-row">
   <div class="mobile-project-pane">
     <nav class="sub-nav flex-col" id="mobile-project-nav">
-      <a href = "#" onclick="openProjectPane()" id="project-info" class="nav-button" title="View Project Information"><i class="fas fa-bars"></i></a>
+      <a href = "#" id="project-info" class="nav-button" title="View Project Information"><i class="fas fa-bars"></i></a>
       {% if is_creator(project.id) %}
        <a href="{{ url_for('projects.edit_project', project_id=project.id) }}" class="nav-button" title="Edit Project Information"><i class="fas fa-edit"></i></a>
       {% endif %}
@@ -70,6 +70,7 @@
     {% if not project.tickets %}
       <p class="prompt">This project has no tickets yet. Click the create ticket button (<i class="fas fa-plus"></i>) in the project pane on the left to get started!</p>
     {% else %}
+      <div class="filter-dropdown hidden">Filter <i class="fas fa-caret-down dropdown-arrow"></i></div>
       <div class="filter-container">
         <form id="filter-category">
           <label for="filter-category" class="filter-label">Filter Tickets By Category</label><br>
@@ -81,7 +82,6 @@
                          name="{{ category }}"
                          value="{{ category }}"
                          class="checkbox"
-                         onchange="filterTickets(this)"
                          checked>
                   {{ category }}
                 </label>
@@ -98,7 +98,6 @@
                          name="{{ status }}"
                          value="{{ status }}"
                          class="checkbox"
-                         onchange="filterTickets(this)"
                          checked>
                   {{ status }}
                 </label>
