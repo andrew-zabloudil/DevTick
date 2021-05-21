@@ -68,7 +68,7 @@
   </div>
   <div class="ticket-pane flex-col">
     {% if not project.tickets %}
-      <p>This project has no tickets yet. Get started now by clicking Create Ticket!</p>
+      <p class="prompt">This project has no tickets yet. Click the create ticket button (<i class="fas fa-plus"></i>) in the project pane on the left to get started!</p>
     {% else %}
       <div class="filter-container">
         <form id="filter-category">
