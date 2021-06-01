@@ -12,7 +12,7 @@ class CreateProjectForm(FlaskForm):
     summary = StringField("Summary", validators=[DataRequired()])
     description = CKEditorField(
         "Full Description", validators=[DataRequired()])
-    submit = SubmitField("Create Project")
+    submit = SubmitField("Submit Project")
 
 
 ticket_categories = [
