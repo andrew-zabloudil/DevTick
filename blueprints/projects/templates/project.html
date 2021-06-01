@@ -64,6 +64,9 @@
           {% endfor %}
         </ul>
       {% endif %}
+      {% if is_creator(project.id) or is_admin(project.id) %}
+      <a href="{{ url_for('projects.delete_project', project_id=project.id) }}" class="warning remove-button" id="delete-button">Delete Project</a>
+      {% endif %}
     </div>
   </div>
   <div class="ticket-pane flex-col">
