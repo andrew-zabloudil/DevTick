@@ -97,7 +97,18 @@ def edit_project(project_id):
     return render_template("create_project.html", form=form)
 
 
+@projects_blueprint.route('/project/<int:project_id>/delete-project/', methods=["GET", "POST"])
+@login_required
+@admin_only
+def delete_project(project_id):
+    project = Project.query.get(project_id)
+    db.session.delete(project)
+    db.session.commit()
+    return redirect(url_for('general.home'))
+
 # Route for creating a new ticket on a project
+
+
 @projects_blueprint.route('/project/<int:project_id>/create-ticket', methods=["GET", "POST"])
 @login_required
 @associated_user
@@ -147,7 +158,7 @@ def edit_ticket(project_id, ticket_id):
 # Route for adding a new user to a project
 @projects_blueprint.route('/project/<int:project_id>/add-user', methods=["GET", "POST"])
 @login_required
-@associated_user
+@admin_only
 def add_user(project_id):
     form = AddUserForm()
     if form.validate_on_submit():
@@ -168,7 +179,7 @@ def add_user(project_id):
 # Route for removing a user from a project
 @projects_blueprint.route('/project/<int:project_id>/remove-user/<int:user_id>')
 @login_required
-@associated_user
+@admin_only
 def remove_user(project_id, user_id):
     user = User.query.get(user_id)
     project = Project.query.get(project_id)
@@ -182,7 +193,6 @@ def remove_user(project_id, user_id):
 # Route for editing a user's role on a project
 @projects_blueprint.route('/project/<int:project_id>/edit-user/<int:user_id>', methods=["POST"])
 @login_required
-@associated_user
 @admin_only
 def edit_user(project_id, user_id):
     user = User.query.get(user_id)
