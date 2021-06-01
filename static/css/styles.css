@@ -280,7 +280,6 @@ body {
   border-style: solid;
   padding: 0.5rem;
   margin-top: 1rem;
-  margin-bottom: 3rem;
 }
 
 .user-list-items {
@@ -300,6 +299,12 @@ body {
   padding: 0.25rem 0.25rem;
   margin: 0.5rem;
   color: var(--main-bg-color);
+}
+
+#delete-button {
+  padding: 0.5rem;
+  display: flex;
+  margin: 3rem auto;
 }
 
 #user-list {
