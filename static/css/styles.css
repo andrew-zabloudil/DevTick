@@ -45,8 +45,82 @@ body {
   background-color: #b4000c !important;
 }
 
+.warning:hover {
+  background-color: #a5010c !important;
+}
+
 .form {
   padding: 0.75rem 1.5rem;
+}
+
+.modal {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+  background-color: #000;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding-top: 3rem;
+}
+
+.close-modal {
+  position: absolute;
+  right: 0;
+  top: 1rem;
+  font-size: 3rem;
+  font-weight: bold;
+  color: #ccc;
+  margin-right: 3rem;
+  padding: 1rem;
+}
+
+.close-modal:hover,
+.close-modal:focus {
+  color: #bbb;
+  cursor: pointer;
+}
+
+.modal-content {
+  background-color: var(--main-bg-color);
+  margin: 5% auto 15% auto;
+  border: 1px solid #888;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: space-evenly;
+}
+
+.modal-content h1 {
+  padding: 2rem;
+  font-size: 200%;
+}
+
+.modal-content p {
+  padding: 0 2rem;
+}
+
+.modal-button {
+  float: left;
+  width: 50%;
+  text-align: center;
+  text-decoration: none;
+  font-size: 2rem;
+  font-weight: bold;
+  color: black;
+  padding: 1rem;
+  margin-top: 1rem;
+  background-color: #ccc;
+}
+
+.modal-button:hover,
+.modal-button:focus {
+  background-color: #bbb;
+  cursor: pointer;
 }
 
 /* || Navigation */
@@ -301,10 +375,20 @@ body {
   color: var(--main-bg-color);
 }
 
+.remove-button:hover,
+.remove-button:focus {
+  cursor: pointer;
+}
+
 #delete-button {
   padding: 0.5rem;
   display: flex;
   margin: 3rem auto;
+}
+
+#delete-button:hover,
+#delete-button:focus {
+  cursor: pointer;
 }
 
 #user-list {
