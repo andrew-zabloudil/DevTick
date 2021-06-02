@@ -37,7 +37,8 @@ function closeProjectPane() {
 
 /* Allows the filter menu to be expanded/collapsed by the user. */
 var filterDropdown = document.getElementsByClassName("filter-dropdown")[0];
-filterDropdown.addEventListener("click", function() {
+if (filterDropdown) {
+  filterDropdown.addEventListener("click", function() {
   var dropdownArrow = document.getElementsByClassName("dropdown-arrow")[0];
   var filterContainer = document.getElementsByClassName("filter-container")[0];
 
@@ -53,6 +54,8 @@ filterDropdown.addEventListener("click", function() {
     filterContainer.style.display = "none";
   }
 });
+}
+
 
 /* Dynamically changes the tickets that are displayed by using checkboxes to filter them. */
 var checkboxes = document.getElementsByClassName("checkbox");
@@ -89,3 +92,27 @@ function filterTickets(checkbox) {
     };
   }
 };
+
+/* Handles delete confirmation window for project deletion. */
+var deleteProject = document.getElementById("delete-button")
+var deleteConfirmation = document.getElementById("delete-project")
+
+deleteProject.onclick = function() {
+  deleteConfirmation.style.display = "block";
+}
+
+var cancelDelete = document.getElementById("cancel-delete")
+cancelDelete.onclick = function() {
+  deleteConfirmation.style.display = "none";
+}
+
+var closeModal = document.getElementsByClassName("close-modal")[0]
+closeModal.onclick = function() {
+  deleteConfirmation.style.display = "none";
+}
+
+window.onclick = function(event) {
+  if(event.target == deleteConfirmation) {
+    deleteConfirmation.style.display = "none";
+  }
+}
