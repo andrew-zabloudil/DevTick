@@ -1,6 +1,17 @@
 {% include "header.html" %}
 
 <div class="flex-row">
+  <div class="modal" id="delete-project">
+    <span class="close-modal" title="Close Modal">&times;</span>
+    <div class="modal-content">
+      <h1>Delete Project</h1>
+      <p>Are you sure you want to delete this project? This action cannot be reversed.</p>
+      <div class="flex-row">
+        <button class="modal-button" id="cancel-delete">Cancel</button>
+        <a href="{{ url_for('projects.delete_project', project_id=project.id) }}" class="warning modal-button">Delete</a>
+      </div>
+    </div>
+  </div>
   <div class="mobile-project-pane">
     <nav class="sub-nav flex-col" id="mobile-project-nav">
       <a href = "#" id="project-info" class="nav-button" title="View Project Information"><i class="fas fa-bars"></i></a>
@@ -65,7 +76,7 @@
         </ul>
       {% endif %}
       {% if is_creator(project.id) or is_admin(project.id) %}
-      <a href="{{ url_for('projects.delete_project', project_id=project.id) }}" class="warning remove-button" id="delete-button">Delete Project</a>
+      <button class="warning remove-button" id="delete-button">Delete Project</button>
       {% endif %}
     </div>
   </div>
