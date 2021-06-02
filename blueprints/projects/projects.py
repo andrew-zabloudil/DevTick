@@ -9,7 +9,7 @@ from forms import CreateProjectForm, CreateTicketForm, EditTicketForm, AddUserFo
 from models import db, AssociatedUser, User, Project, Ticket
 
 projects_blueprint = Blueprint(
-    'projects', __name__, template_folder='templates')
+    'projects', __name__, static_folder='static', template_folder='templates')
 
 
 def is_creator(project_id):
